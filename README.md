@@ -76,12 +76,12 @@ pnpm dev
 ## 開発
 
 ```bash
-pnpm dev        # 開発サーバー
-pnpm build      # ビルド
-pnpm preview    # プレビュー
+pnpm dev            # 開発サーバー
+pnpm build          # ビルド
+pnpm preview        # プレビュー
 pnpm tsc --noEmit   # 型チェック
-pnpm lint       # ESLint
-pnpm format     # Prettier
+pnpm lint           # ESLint
+pnpm format         # Prettier
 ```
 
 詳細は [CLAUDE.md](./CLAUDE.md) を参照
