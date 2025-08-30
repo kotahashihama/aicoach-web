@@ -1,4 +1,5 @@
 import { ToolbarProps, ExplainLevel, Language } from '../../../shared/types'
+import { Button } from '../../../shared/components/Button'
 import * as styles from './Toolbar.css'
 
 /**
@@ -52,6 +53,9 @@ export const Toolbar = ({
   loading,
   apiKey,
   onApiKeyChange,
+  code,
+  isExplaining,
+  isExplainingDiff,
 }: ToolbarProps) => {
   return (
     <div className={styles.toolbar}>
@@ -109,22 +113,25 @@ export const Toolbar = ({
         </div>
 
         <div className={styles.buttonsGroup}>
-          <button
-            className={styles.btnPrimary}
+          <Button
+            variant="primary"
             onClick={onExplain}
-            disabled={loading}
+            loading={isExplaining}
+            disabled={!code.trim() || isExplainingDiff}
+            title={!code.trim() ? 'コードを入力してください' : ''}
           >
-            {loading ? '解析中...' : 'このコードを解説'}
-          </button>
+            このコードを解説
+          </Button>
 
-          <button
-            className={styles.btnSecondary}
+          <Button
+            variant="secondary"
             onClick={onExplainDiff}
-            disabled={!canExplainDiff || loading}
-            title={!canExplainDiff ? '最初に解説を実行してください' : ''}
+            loading={isExplainingDiff}
+            disabled={!canExplainDiff || isExplaining}
+            title={!canExplainDiff ? 'コードに変更を加えてください' : ''}
           >
             変更差分を解説
-          </button>
+          </Button>
         </div>
       </div>
 

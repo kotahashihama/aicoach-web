@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Button } from '../../../shared/components/Button'
 import * as styles from './Snackbar.css'
 
 /**
@@ -48,9 +49,9 @@ export const Snackbar = ({
   return (
     <div className={`${styles.snackbar} ${styles[type]}`}>
       <span className={styles.message}>{message}</span>
-      <button className={styles.closeButton} onClick={onClose}>
+      <Button variant="ghost" size="sm" onClick={onClose}>
         ✕
-      </button>
+      </Button>
     </div>
   )
 }

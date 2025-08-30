@@ -27,6 +27,8 @@ export const App = () => {
   const [level, setLevel] = useState<ExplainLevel>('beginner')
   const [language, setLanguage] = useState<Language>('typescript')
   const [codeGenerating, setCodeGenerating] = useState(false)
+  const [isExplaining, setIsExplaining] = useState(false)
+  const [isExplainingDiff, setIsExplainingDiff] = useState(false)
   const { apiKey, updateAPIKey } = useAPIKey()
   const {
     explanation,
@@ -62,9 +64,11 @@ export const App = () => {
     }
 
     setValidationError(null)
+    setIsExplaining(true)
     const generator = explainHeuristicallyStream(code, language, level, apiKey)
     await executeStream(generator)
     setPreviousCode(code)
+    setIsExplaining(false)
   }
 
   /**
@@ -77,6 +81,7 @@ export const App = () => {
     }
 
     setValidationError(null)
+    setIsExplainingDiff(true)
     const generator = explainDiffHeuristicallyStream(
       previousCode,
       code,
@@ -85,6 +90,7 @@ export const App = () => {
       apiKey,
     )
     await executeStream(generator)
+    setIsExplainingDiff(false)
   }
 
   /**
@@ -125,10 +131,13 @@ export const App = () => {
         onLanguageChange={setLanguage}
         onExplain={handleExplain}
         onExplainDiff={handleExplainDiff}
-        canExplainDiff={!!previousCode}
+        canExplainDiff={!!previousCode && code !== previousCode}
         loading={loading}
         apiKey={apiKey}
         onApiKeyChange={updateAPIKey}
+        code={code}
+        isExplaining={isExplaining}
+        isExplainingDiff={isExplainingDiff}
       />
 
       <PromptInput

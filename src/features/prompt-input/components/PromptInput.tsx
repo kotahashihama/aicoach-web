@@ -1,6 +1,7 @@
 import { useState, useRef, KeyboardEvent } from 'react'
 import { Language } from '../../../shared/types'
 import { getLanguageDisplayName } from '../../../shared/lib/language'
+import { Button } from '../../../shared/components/Button'
 import * as styles from './PromptInput.css'
 
 /**
@@ -87,13 +88,14 @@ export const PromptInput = ({
           disabled={loading}
           rows={1}
         />
-        <button
-          className={styles.generateButton}
+        <Button
+          variant="primary"
           onClick={handleSubmit}
-          disabled={loading || !prompt.trim()}
+          disabled={!prompt.trim()}
+          loading={loading}
         >
-          {loading ? '生成中...' : 'コード生成'}
-        </button>
+          コード生成
+        </Button>
       </div>
       <div className={styles.promptHint}>
         例:

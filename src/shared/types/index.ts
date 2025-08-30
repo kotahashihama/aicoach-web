@@ -52,6 +52,9 @@ export interface ToolbarProps {
   loading: boolean
   apiKey: string
   onApiKeyChange: (key: string) => void
+  code: string
+  isExplaining: boolean
+  isExplainingDiff: boolean
 }
 
 /**
