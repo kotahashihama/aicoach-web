@@ -24,46 +24,30 @@ export const summary = style({
   color: vars.color.text.primary,
 })
 
-const listBase = style({
-  listStyle: 'none',
-  padding: 0,
+export const constructsList = style({
+  listStyle: 'disc',
+  paddingLeft: vars.spacing.xl,
+  margin: `${vars.spacing.md} 0`,
 })
 
-export const constructsList = listBase
-export const pitfallsList = listBase
+export const pitfallsList = style({
+  listStyle: 'disc',
+  paddingLeft: vars.spacing.xl,
+  margin: `${vars.spacing.md} 0`,
+})
 
-const listItemBase = style({
+export const constructsListItem = style({
   fontSize: vars.fontSize.sm,
   lineHeight: vars.lineHeight.relaxed,
   padding: `${vars.spacing.xs} 0`,
-  paddingLeft: vars.spacing.xl,
-  position: 'relative',
 })
 
-export const constructsListItem = style([
-  listItemBase,
-  {
-    '::before': {
-      content: '"▸"',
-      position: 'absolute',
-      left: 0,
-      color: vars.color.brand.primary,
-    },
-  },
-])
-
-export const pitfallsListItem = style([
-  listItemBase,
-  {
-    color: vars.color.warning.text,
-    '::before': {
-      content: '"⚠"',
-      position: 'absolute',
-      left: 0,
-      color: vars.color.warning.text,
-    },
-  },
-])
+export const pitfallsListItem = style({
+  fontSize: vars.fontSize.sm,
+  lineHeight: vars.lineHeight.relaxed,
+  padding: `${vars.spacing.xs} 0`,
+  color: vars.color.warning.text,
+})
 
 export const alternativeCode = style({
   backgroundColor: vars.color.background.primary,

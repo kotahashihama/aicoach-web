@@ -33,24 +33,21 @@ globalStyle(`${markdownContent} h2`, {
 })
 
 globalStyle(`${markdownContent} ul`, {
-  listStyle: 'none',
-  padding: 0,
-  margin: `${vars.spacing.sm} 0`,
+  listStyle: 'disc',
+  paddingLeft: vars.spacing.xl,
+  margin: `${vars.spacing.md} 0`,
+})
+
+globalStyle(`${markdownContent} ol`, {
+  listStyle: 'decimal',
+  paddingLeft: vars.spacing.xl,
+  margin: `${vars.spacing.md} 0`,
 })
 
 globalStyle(`${markdownContent} li`, {
   fontSize: vars.fontSize.sm,
   lineHeight: vars.lineHeight.relaxed,
   padding: `${vars.spacing.xs} 0`,
-  paddingLeft: vars.spacing.xl,
-  position: 'relative',
-})
-
-globalStyle(`${markdownContent} ul > li::before`, {
-  content: '"▸"',
-  position: 'absolute',
-  left: 0,
-  color: vars.color.brand.primary,
 })
 
 globalStyle(`${markdownContent} pre`, {
