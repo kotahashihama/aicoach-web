@@ -1,15 +1,17 @@
+import { z } from 'zod'
 import { Language } from '../../../shared/types'
 import { assertAPIKey, createAPIError } from '../../../shared/lib/errorHandling'
 import { getLanguageDisplayName } from '../../../shared/lib/language'
 import { API_CONFIG, ERROR_MESSAGES } from '../../../shared/constants'
 
-interface OpenAIResponse {
-  choices: Array<{
-    message: {
-      content: string
-    }
-  }>
-}
+// Zod スキーマの定義
+const CodeGenerationResponse = z.object({
+  isValidRequest: z.boolean(),
+  code: z.string(),
+  reason: z.string().optional(),
+})
+
+type CodeGenerationResponse = z.infer<typeof CodeGenerationResponse>
 
 /**
  * AI を使用してコードを生成または変更します
@@ -25,34 +27,25 @@ export const generateCode = async (
   language: Language,
   apiKey: string,
   existingCode?: string,
-): Promise<string> => {
+): Promise<{ code: string; isValidRequest: boolean; reason?: string }> => {
   assertAPIKey(apiKey)
 
   const langName = getLanguageDisplayName(language)
   const hasExistingCode = existingCode && existingCode.trim().length > 0
   
-  const systemPrompt = hasExistingCode
-    ? `あなたは${langName}のコード変更・改善アシスタントです。
-既存のコードを起点として、ユーザーの要求に基づいて変更・改善・機能追加を行ってください。
-完全に新しいコードで置き換えるのではなく、既存のコードを活かしながら変更してください。
+  const systemPrompt = `あなたは${langName}のコード生成・変更アシスタントです。
+ユーザーの要求を分析し、適切なコード生成・変更の指示かどうかを判断してください。
 
-重要な指示:
-1. 変更されたコード全体を返してください。説明や追加のテキストは不要です。
-2. 既存のコードの良い部分は残しつつ、要求された変更を加えてください。
-3. 適切なエラーハンドリングを含めてください。
-4. 必要に応じてコメントを追加してください。
-5. ${langName}の慣習に従ったコーディングスタイルを使用してください。
-6. 既存の変数名や関数名、構造をできるだけ維持してください。
-7. コメントでは日本語と英語の間に半角スペースを入れてください（例：「JavaScript のコード」「API の使用」）。`
-    : `あなたは${langName}のコード生成アシスタントです。
-ユーザーの要求に基づいて、クリーンで読みやすく、ベストプラクティスに従った${langName}コードを生成してください。
+判断基準：
+- 適切：コード作成、機能追加、バグ修正、リファクタリングなどの具体的な指示
+- 不適切：挨拶、質問、感想など
 
-重要な指示:
-1. コードのみを返してください。説明や追加のテキストは不要です。
-2. 適切なエラーハンドリングを含めてください。
-3. 必要に応じてコメントを追加してください。
-4. ${langName}の慣習に従ったコーディングスタイルを使用してください。
-5. コメントでは日本語と英語の間に半角スペースを入れてください（例：「JavaScript のコード」「API の使用」）。`
+${hasExistingCode ? '既存のコードを起点として変更してください。' : '新規コードを生成してください。'}
+
+コード作成時の注意：
+- ${langName}の慣習に従ったコーディングスタイル
+- 適切なエラーハンドリング
+- 日本語と英語の間に半角スペース`
 
   const userPrompt = hasExistingCode
     ? `現在の${langName}コード:
@@ -60,15 +53,12 @@ export const generateCode = async (
 ${existingCode}
 \`\`\`
 
-以下の要求に基づいて上記のコードを変更・改善してください：
+ユーザーの要求：
 ${prompt}
 
-変更されたコード全体を返してください。`
-    : `以下の要求に基づいて${langName}コードを生成してください：
-
-${prompt}
-
-コードのみを返してください。`
+${hasExistingCode ? existingCode : ''}`
+    : `ユーザーの要求：
+${prompt}`
 
   try {
     const response = await fetch(API_CONFIG.OPENAI_ENDPOINT, {
@@ -89,7 +79,32 @@ ${prompt}
             content: userPrompt,
           },
         ],
-        temperature: 0.7,
+        functions: [
+          {
+            name: 'generateCode',
+            description: 'コード生成・変更の結果を返す',
+            parameters: {
+              type: 'object',
+              properties: {
+                isValidRequest: {
+                  type: 'boolean',
+                  description: 'ユーザーの要求が適切なコード生成・変更の指示かどうか',
+                },
+                code: {
+                  type: 'string',
+                  description: '生成または変更されたコード',
+                },
+                reason: {
+                  type: 'string',
+                  description: '無効なリクエストの理由',
+                },
+              },
+              required: ['isValidRequest', 'code'],
+            },
+          },
+        ],
+        function_call: { name: 'generateCode' },
+        temperature: 0.3,
         max_tokens: 2000,
       }),
     })
@@ -99,20 +114,28 @@ ${prompt}
       throw createAPIError(response.status, errorText)
     }
 
-    const data = (await response.json()) as OpenAIResponse
-    const content = data.choices[0]?.message?.content
+    const data = await response.json()
+    const functionCall = data.choices[0]?.message?.function_call
 
-    if (!content) {
-      throw new Error('生成されたコードが空です')
+    if (!functionCall || !functionCall.arguments) {
+      throw new Error('関数呼び出しが見つかりません')
     }
 
-    // コードブロックの除去（```で囲まれている場合）
-    const cleanedCode = content
-      .replace(/^```[a-zA-Z]*\n/, '')
-      .replace(/\n```$/, '')
-      .trim()
-
-    return cleanedCode
+    try {
+      const args = JSON.parse(functionCall.arguments)
+      const validated = CodeGenerationResponse.parse(args)
+      return validated
+    } catch (parseError) {
+      console.error('Function arguments parsing error:', parseError)
+      console.error('Arguments:', functionCall.arguments)
+      
+      // パースエラーの場合は不適切な要求として扱う
+      return {
+        code: hasExistingCode ? existingCode || '' : '',
+        isValidRequest: false,
+        reason: 'AI の応答を解析できませんでした',
+      }
+    }
   } catch (error) {
     console.error('Code generation error:', error)
     throw new Error(

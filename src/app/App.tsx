@@ -11,6 +11,7 @@ import { CodeEditor } from '../features/code-editor'
 import { PromptInput } from '../features/prompt-input'
 import { generateCode } from '../features/code-generation'
 import { useAPIKey } from '../features/api-key'
+import { Snackbar, useSnackbar } from '../features/snackbar'
 import { ExplainLevel, Language, MonacoEditorInstance } from '../shared/types'
 import { ERROR_MESSAGES } from '../shared/constants'
 import { handleAPIError } from '../shared/lib/errorHandling'
@@ -36,6 +37,7 @@ export const App = () => {
     executeStream,
   } = useStreamingExplanation()
   const [validationError, setValidationError] = useState<string | null>(null)
+  const snackbar = useSnackbar()
 
   const editorRef = useRef<MonacoEditorInstance | null>(null)
 
@@ -95,8 +97,17 @@ export const App = () => {
     setValidationError(null)
     
     try {
-      const generatedCode = await generateCode(prompt, language, apiKey, code)
-      setCode(generatedCode)
+      const result = await generateCode(prompt, language, apiKey, code)
+      
+      // 不適切な要求の場合
+      if (!result.isValidRequest) {
+        snackbar.showSnackbar('適切なコード生成の指示を入力してください', 'warning')
+        setCodeGenerating(false)
+        return
+      }
+      
+      // 適切な要求の場合はコードを更新
+      setCode(result.code)
       setPreviousCode(code) // 現在のコードを以前のコードとして保存
     } catch (err) {
       setValidationError(handleAPIError(err))
@@ -146,6 +157,13 @@ export const App = () => {
           level={level}
         />
       </div>
+      
+      <Snackbar
+        message={snackbar.message}
+        type={snackbar.type}
+        isOpen={snackbar.isOpen}
+        onClose={snackbar.closeSnackbar}
+      />
     </div>
   )
 }

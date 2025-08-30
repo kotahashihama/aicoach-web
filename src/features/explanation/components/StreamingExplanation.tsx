@@ -30,9 +30,10 @@ export const StreamingExplanation = ({
       <div className={styles.markdownContent}>
         <ReactMarkdown
           components={{
-            code({ node, inline, className, children, ...props }) {
+            code({ className, children, ...props }: any) {
               const match = /language-(\w+)/.exec(className || '')
-              return !inline && match ? (
+              const isBlock = props['data-code-block'] || className?.includes('language-')
+              return isBlock && match ? (
                 <SyntaxHighlighter
                   language={match[1]}
                   style={vscDarkPlus}
