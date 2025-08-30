@@ -86,7 +86,7 @@ export const PromptInput = ({
           onCompositionEnd={() => setIsComposing(false)}
           placeholder={`${getLanguageDisplayName(language)} のコードを生成するプロンプトを入力...（Enter で改行、Ctrl+Enter で送信）`}
           disabled={loading}
-          rows={1}
+          rows={2}
         />
         <Button
           variant="primary"

@@ -16,7 +16,7 @@ export const promptInputContainerLoading = style({
 export const promptInputWrapper = style({
   display: 'flex',
   gap: vars.spacing.sm,
-  alignItems: 'flex-end',
+  alignItems: 'flex-start',
 })
 
 export const promptTextarea = style({
