@@ -2,7 +2,7 @@
 
 記述されたコードを**その場で理解できる**Webアプリ。OpenAI APIを使用してコードの解説を生成します。
 
-![ai-coach-demo](https://via.placeholder.com/800x400?text=AI+Coach+Demo)
+![ai-coach-demo](demo.png)
 
 ## 機能
 
