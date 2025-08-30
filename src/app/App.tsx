@@ -14,6 +14,7 @@ import { useAPIKey, ApiKeyModal } from '../features/api-key'
 import { Snackbar, useSnackbar } from '../features/snackbar'
 import { VersionSidebar, useVersionControl } from '../features/version-control'
 import { useTheme } from '../features/theme'
+import { useResizable } from '../shared/hooks/useResizable'
 import {
   ExplainLevel,
   ExplainTone,
@@ -40,6 +41,12 @@ export const App = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const { apiKey, updateAPIKey } = useAPIKey()
   const { theme, setTheme } = useTheme()
+  const { percentage, containerRef, handleMouseDown } = useResizable({
+    initialPercentage: 50,
+    minPercentage: 30,
+    maxPercentage: 70,
+    storageKey: 'editor-explanation-split',
+  })
   const {
     versions,
     currentCode,
@@ -225,8 +232,11 @@ export const App = () => {
           onThemeChange={setTheme}
         />
 
-        <div className={styles.mainContent}>
-          <div className={styles.leftColumn}>
+        <div className={styles.mainContent} ref={containerRef}>
+          <div
+            className={styles.leftColumn}
+            style={{ width: `${percentage}%` }}
+          >
             <CodeEditor
               code={selectedVersionCode}
               language={language}
@@ -236,6 +246,8 @@ export const App = () => {
               theme={theme}
             />
           </div>
+
+          <div className={styles.resizeHandle} onMouseDown={handleMouseDown} />
 
           <ExplanationPanel
             error={error}

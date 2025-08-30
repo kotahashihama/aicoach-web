@@ -5,11 +5,9 @@ import { media } from '../../../shared/styles/responsive'
 export const editorPanel = style({
   flex: 1,
   overflow: 'hidden',
-  borderRight: `1px solid ${vars.color.border.primary}`,
   transition: `opacity ${vars.transition.fast}`,
   '@media': {
     [media.tablet]: {
-      borderRight: 'none',
       borderBottom: `1px solid ${vars.color.border.primary}`,
       height: '50vh',
     },
