@@ -131,7 +131,7 @@ export const Toolbar = ({
       <div className={styles.toolbarRight}>
         <div className={styles.apiKeyInput}>
           <label htmlFor="api-key" className={styles.apiKeyLabel}>
-            OpenAI APIキー
+            OpenAI API キー
           </label>
           <input
             id="api-key"

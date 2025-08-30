@@ -27,7 +27,25 @@ src/
 
 ## コーディング規約
 
-### 1. 関数定義
+### 1. 日本語・英語間のスペース
+
+日本語と英語（単語・記号）の間には半角スペースを入れます。
+
+```markdown
+// ✅ 正しい例
+JavaScript のコードを生成
+React コンポーネント
+API キー
+TypeScript ファイル
+
+// ❌ 間違った例
+JavaScriptのコードを生成
+Reactコンポーネント
+APIキー
+TypeScriptファイル
+```
+
+### 2. 関数定義
 
 ```typescript
 // ✅ アロー関数で定義
@@ -38,7 +56,7 @@ export const myFunction = (param: string): string => {
 // ❌ function宣言は使わない（型アサーション関数を除く）
 ```
 
-### 2. Export/Import
+### 3. Export/Import
 
 ```typescript
 // ✅ Named export
@@ -47,7 +65,7 @@ export const MyComponent = () => { ... }
 // ❌ Default export（設定ファイルを除く）
 ```
 
-### 3. JSDocコメント
+### 4. JSDoc コメント
 
 ```typescript
 /**
@@ -57,13 +75,13 @@ export const MyComponent = () => { ... }
  */
 ```
 
-### 4. 型定義・定数
+### 5. 型定義・定数
 
 - 共通の型: `shared/types/index.ts`
 - 共通の定数: `shared/constants/index.ts`
 - 機能固有のものは各featureで管理可
 
-### 5. エラーハンドリング
+### 6. エラーハンドリング
 
 ```typescript
 try {
@@ -73,26 +91,26 @@ try {
 }
 ```
 
-### 6. コンポーネント設計
+### 7. コンポーネント設計
 
 - ビジネスロジック → カスタムフック
 - UIロジック → コンポーネント
 
-### 7. スタイリング
+### 8. スタイリング
 
-- vanilla-extractでCSS-in-JS
+- vanilla-extract で CSS-in-JS
 - 各コンポーネントに`.css.ts`
 - テーマ: `shared/styles/theme.css.ts`
 
-### 8. セキュリティ
+### 9. セキュリティ
 
 - 機密情報は必ずマスキング
 - 最大200行/10KB制限
-- APIキーはlocalStorage/環境変数
+- API キーは localStorage/環境変数
 
-### 9. ドキュメント管理
+### 10. ドキュメント管理
 
-- コード変更時は必ずCLAUDE.mdとREADME.mdを更新
+- コード変更時は必ず CLAUDE.md と README.md を更新
 
 ## 開発環境
 
@@ -105,8 +123,8 @@ React 19 + TypeScript + Vite + Monaco Editor + vanilla-extract
 ```bash
 pnpm run dev       # 開発
 pnpm run build     # ビルド
-pnpm run typecheck # 型チェック
-pnpm run lint      # ESLintチェック
+pnpm tsc --noEmit  # 型チェック
+pnpm run lint      # ESLint チェック
 pnpm run format    # コードフォーマット
 ```
 
