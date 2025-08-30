@@ -186,7 +186,7 @@ export const Toolbar = ({
           <div className={styles.diffControls}>
             <div className={styles.diffSelectors}>
               <div className={styles.diffSelector}>
-                <label className={styles.diffLabel}>base:</label>
+                <label className={styles.diffLabel}>base</label>
                 <Select
                   variant="compact"
                   value={baseVersionId}
@@ -202,7 +202,7 @@ export const Toolbar = ({
               </div>
               <span className={styles.diffArrow}>→</span>
               <div className={styles.diffSelector}>
-                <label className={styles.diffLabel}>head:</label>
+                <label className={styles.diffLabel}>head</label>
                 <Select
                   variant="compact"
                   value={headVersionId}
