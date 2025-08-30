@@ -10,7 +10,8 @@ const selectBase = style({
   cursor: 'pointer',
   transition: `all ${vars.transition.fast}`,
   ':hover': {
-    backgroundColor: vars.color.border.secondary,
+    backgroundColor: vars.color.background.tertiary,
+    borderColor: vars.color.border.primary,
   },
   ':focus': {
     outline: 'none',

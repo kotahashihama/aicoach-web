@@ -70,9 +70,9 @@ export const darkTheme = createTheme(colors, {
 export const lightTheme = createTheme(colors, {
   background: {
     primary: '#ffffff',
-    secondary: '#f3f3f3',
-    tertiary: '#e8e8e8',
-    quaternary: '#d4d4d4',
+    secondary: '#f8f8f8',
+    tertiary: '#e5e5e5',
+    quaternary: '#dcdcdc',
   },
   text: {
     primary: '#1e1e1e',
@@ -80,8 +80,8 @@ export const lightTheme = createTheme(colors, {
     tertiary: '#6e6e6e',
   },
   border: {
-    primary: '#d4d4d4',
-    secondary: '#e8e8e8',
+    primary: '#d0d0d0',
+    secondary: '#c0c0c0',
   },
   brand: {
     primary: '#0066cc',
