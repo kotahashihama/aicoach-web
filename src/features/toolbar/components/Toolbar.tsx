@@ -17,13 +17,10 @@ const isLanguage = (value: string): value is Language => {
   const validLanguages: Language[] = [
     'typescript',
     'javascript',
-    'typescriptreact',
-    'javascriptreact',
     'python',
     'go',
     'ruby',
     'php',
-    'vue',
   ]
   return validLanguages.includes(value as Language)
 }
@@ -102,14 +99,11 @@ export const Toolbar = ({
               disabled={loading}
               options={[
                 { value: 'typescript', label: 'TypeScript' },
-                { value: 'typescriptreact', label: 'TypeScript JSX' },
                 { value: 'javascript', label: 'JavaScript' },
-                { value: 'javascriptreact', label: 'JavaScript JSX' },
                 { value: 'python', label: 'Python' },
                 { value: 'go', label: 'Go' },
                 { value: 'ruby', label: 'Ruby' },
                 { value: 'php', label: 'PHP' },
-                { value: 'vue', label: 'Vue.js' },
               ]}
             />
           </div>

@@ -27,13 +27,10 @@ export type Theme = 'light' | 'dark'
 export type Language =
   | 'typescript'
   | 'javascript'
-  | 'typescriptreact' // TypeScript JSX (TSX)
-  | 'javascriptreact' // JavaScript JSX
   | 'python'
   | 'go'
   | 'ruby'
   | 'php'
-  | 'vue'
 
 /**
  * コード解説の内容

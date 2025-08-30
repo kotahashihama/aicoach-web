@@ -9,10 +9,6 @@ export const getLanguageDisplayName = (lang: string): string => {
       return 'TypeScript'
     case 'javascript':
       return 'JavaScript'
-    case 'typescriptreact':
-      return 'TypeScript JSX (React)'
-    case 'javascriptreact':
-      return 'JavaScript JSX (React)'
     case 'python':
       return 'Python'
     case 'go':
@@ -21,8 +17,6 @@ export const getLanguageDisplayName = (lang: string): string => {
       return 'Ruby'
     case 'php':
       return 'PHP'
-    case 'vue':
-      return 'Vue.js'
     default:
       return lang
   }

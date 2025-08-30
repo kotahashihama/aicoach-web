@@ -14,7 +14,7 @@ AI がコードの**解説・生成・修正**をサポートする Web アプ�
 ### コード生成・修正
 - **自然言語プロンプトによるコード生成**
 - **既存コードの AI による修正・改善**
-- **複数言語対応**（TypeScript, JavaScript, Python, Go, Ruby, PHP, Vue.js）
+- **複数言語対応**（TypeScript, JavaScript, Python, Go, Ruby, PHP）
 
 ### バージョン管理
 - **コードスナップショットの保存・復元**
