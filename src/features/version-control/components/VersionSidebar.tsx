@@ -38,9 +38,11 @@ export const VersionSidebar = ({
 
   return (
     <>
-      <div className={`${styles.sidebar} ${isOpen ? '' : styles.sidebarClosed}`}>
+      <div
+        className={`${styles.sidebar} ${isOpen ? '' : styles.sidebarClosed}`}
+      >
         <div className={styles.header}>
-          <h2 className={styles.title}>バージョン</h2>
+          <h2 className={styles.title}>バージョン履歴</h2>
           <Button
             variant="ghost"
             size="sm"
@@ -56,7 +58,9 @@ export const VersionSidebar = ({
               <button
                 key={version.id}
                 className={`${styles.versionItem} ${
-                  selectedVersionId === version.id ? styles.versionItemActive : ''
+                  selectedVersionId === version.id
+                    ? styles.versionItemActive
+                    : ''
                 }`}
                 onClick={() => onSelectVersion(version.id)}
               >

@@ -59,19 +59,19 @@ export const variants = styleVariants({
 
 export const sizes = styleVariants({
   sm: {
+    padding: `3px ${vars.spacing.sm}`,
+    fontSize: vars.fontSize.xs,
+    height: '24px',
+  },
+  md: {
     padding: `4px ${vars.spacing.md}`,
     fontSize: vars.fontSize.xs,
     height: '28px',
   },
-  md: {
+  lg: {
     padding: `6px ${vars.spacing.lg}`,
     fontSize: vars.fontSize.sm,
     height: '36px',
-  },
-  lg: {
-    padding: `8px ${vars.spacing.xl}`,
-    fontSize: vars.fontSize.md,
-    height: '44px',
   },
 })
 

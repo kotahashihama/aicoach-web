@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 import { vars } from '../../../shared/styles/theme.css'
 
 export const promptInputContainer = style({
-  padding: vars.spacing.md,
+  padding: vars.spacing.sm,
   backgroundColor: vars.color.background.secondary,
   borderTop: `1px solid ${vars.color.border.primary}`,
   transition: `opacity ${vars.transition.fast}`,
@@ -29,8 +29,8 @@ export const promptTextarea = style({
   fontSize: vars.fontSize.sm,
   fontFamily: vars.font.system,
   resize: 'none',
-  minHeight: '40px',
-  maxHeight: '120px',
+  minHeight: '36px',
+  maxHeight: '100px',
   lineHeight: 1.5,
   transition: 'border-color 0.2s ease',
   
@@ -50,9 +50,9 @@ export const promptTextarea = style({
 })
 
 export const generateButton = style({
-  padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+  padding: `${vars.spacing.xs} ${vars.spacing.md}`,
   backgroundColor: vars.color.brand.primary,
-  color: vars.color.background.primary,
+  color: 'white',
   border: 'none',
   borderRadius: vars.borderRadius.sm,
   fontSize: vars.fontSize.sm,
@@ -60,6 +60,7 @@ export const generateButton = style({
   cursor: 'pointer',
   transition: 'all 0.2s ease',
   whiteSpace: 'nowrap',
+  height: '32px',
   
   ':hover': {
     opacity: 0.9,

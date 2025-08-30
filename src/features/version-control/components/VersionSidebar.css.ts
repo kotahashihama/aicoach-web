@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 import { vars } from '../../../shared/styles/theme.css'
 
 export const sidebar = style({
-  width: '200px',
+  width: '160px',
   backgroundColor: vars.color.background.secondary,
   borderRight: `1px solid ${vars.color.border.primary}`,
   height: '100%',
@@ -16,12 +16,12 @@ export const header = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: vars.spacing.md,
+  padding: vars.spacing.sm,
   borderBottom: `1px solid ${vars.color.border.primary}`,
 })
 
 export const title = style({
-  fontSize: vars.fontSize.md,
+  fontSize: vars.fontSize.sm,
   fontWeight: '600',
   color: vars.color.text.secondary,
   margin: 0,
@@ -30,12 +30,12 @@ export const title = style({
 export const versionList = style({
   flex: 1,
   overflowY: 'auto',
-  padding: vars.spacing.sm,
+  padding: vars.spacing.xs,
 })
 
 export const versionItem = style({
   width: '100%',
-  padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+  padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
   backgroundColor: 'transparent',
   border: 'none',
   borderRadius: vars.borderRadius.sm,
@@ -43,7 +43,7 @@ export const versionItem = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: vars.spacing.xs,
+  gap: '2px',
   transition: `background-color ${vars.transition.fast}`,
   ':hover': {
     backgroundColor: vars.color.background.tertiary,
@@ -58,7 +58,7 @@ export const versionItemActive = style({
 })
 
 export const versionId = style({
-  fontSize: vars.fontSize.sm,
+  fontSize: vars.fontSize.xs,
   fontWeight: '500',
   color: vars.color.text.primary,
 })

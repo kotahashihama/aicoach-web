@@ -5,22 +5,23 @@ import { media } from '../../../shared/styles/responsive'
 export const toolbar = style({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'flex-start',
-  padding: `${vars.spacing.md} ${vars.spacing.xl}`,
+  alignItems: 'center',
+  padding: `10px ${vars.spacing.md}`,
   backgroundColor: vars.color.background.tertiary,
   borderBottom: `1px solid ${vars.color.border.primary}`,
-  gap: vars.spacing.lg,
+  gap: vars.spacing.md,
   flexShrink: 0,
-  minHeight: '60px',
+  minHeight: '48px',
   '@media': {
     [media.wide]: {
       flexWrap: 'wrap',
-      padding: vars.spacing.md,
-      gap: vars.spacing.md,
+      padding: '10px',
+      gap: vars.spacing.sm,
     },
     [media.tablet]: {
-      gap: vars.spacing.md,
-      padding: vars.spacing.sm,
+      flexWrap: 'wrap',
+      gap: vars.spacing.sm,
+      padding: '10px',
     },
   },
 })
@@ -28,19 +29,20 @@ export const toolbar = style({
 export const toolbarLeft = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.md,
+  gap: vars.spacing.sm,
   flexWrap: 'wrap',
   flex: 1,
   '@media': {
     [media.wide]: {
       width: '100%',
       justifyContent: 'flex-start',
-      gap: vars.spacing.md,
+      gap: vars.spacing.sm,
     },
     [media.tablet]: {
+      width: '100%',
       flexDirection: 'column',
       alignItems: 'stretch',
-      gap: vars.spacing.md,
+      gap: vars.spacing.sm,
     },
   },
 })
@@ -48,12 +50,11 @@ export const toolbarLeft = style({
 export const toolbarRight = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.lg,
+  gap: vars.spacing.sm,
   flexShrink: 0,
   '@media': {
-    [media.wide]: {
-      width: '100%',
-      marginTop: 0,
+    [media.tablet]: {
+      marginLeft: 'auto',
     },
   },
 })
@@ -61,19 +62,20 @@ export const toolbarRight = style({
 export const selectorsGroup = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.md,
+  gap: vars.spacing.sm,
+  flexWrap: 'wrap',
   '@media': {
     [media.desktop]: {
-      gap: vars.spacing.sm,
+      gap: vars.spacing.xs,
     },
     [media.tablet]: {
       width: '100%',
-      justifyContent: 'space-between',
+      gap: vars.spacing.xs,
     },
     [media.mobile]: {
       flexDirection: 'column',
       alignItems: 'stretch',
-      gap: vars.spacing.sm,
+      gap: vars.spacing.xs,
     },
   },
 })
@@ -81,15 +83,17 @@ export const selectorsGroup = style({
 export const buttonsGroup = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.md,
+  gap: vars.spacing.sm,
   flexWrap: 'wrap',
   '@media': {
     [media.desktop]: {
-      gap: vars.spacing.sm,
+      gap: vars.spacing.xs,
     },
     [media.tablet]: {
       width: '100%',
-      gap: vars.spacing.md,
+      gap: vars.spacing.xs,
+      flexDirection: 'column',
+      alignItems: 'stretch',
     },
   },
 })
@@ -97,7 +101,7 @@ export const buttonsGroup = style({
 const selectorBase = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.sm,
+  gap: vars.spacing.xs,
   '@media': {
     [media.mobile]: {
       width: '100%',
@@ -110,7 +114,7 @@ export const levelSelector = selectorBase
 export const toneSelector = selectorBase
 
 export const selectorLabel = style({
-  fontSize: vars.fontSize.sm,
+  fontSize: vars.fontSize.xs,
   color: vars.color.text.secondary,
   whiteSpace: 'nowrap',
 })
@@ -219,11 +223,18 @@ export const apiKeyInputField = style({
 export const diffControls = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.md,
+  gap: vars.spacing.sm,
   flexShrink: 0,
   '@media': {
+    [media.desktop]: {
+      flexWrap: 'wrap',
+      gap: vars.spacing.xs,
+    },
     [media.tablet]: {
       width: '100%',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      gap: vars.spacing.xs,
     },
   },
 })
@@ -234,9 +245,9 @@ export const diffSelectors = style({
   gap: vars.spacing.sm,
   flexShrink: 0,
   '@media': {
-    [media.mobile]: {
+    [media.tablet]: {
       width: '100%',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
     },
   },
 })
@@ -248,7 +259,7 @@ export const diffSelector = style({
 })
 
 export const diffLabel = style({
-  fontSize: vars.fontSize.sm,
+  fontSize: vars.fontSize.xs,
   color: vars.color.text.secondary,
 })
 
@@ -266,7 +277,12 @@ export const settingsButton = style({
 
 export const divider = style({
   width: '1px',
-  height: '24px',
+  height: '20px',
   backgroundColor: vars.color.border.primary,
   alignSelf: 'center',
+  '@media': {
+    [media.tablet]: {
+      display: 'none',
+    },
+  },
 })

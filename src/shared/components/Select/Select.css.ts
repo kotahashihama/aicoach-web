@@ -25,15 +25,16 @@ const selectBase = style({
 export const select = style([
   selectBase,
   {
-    padding: `6px ${vars.spacing.md}`,
-    height: '36px',
+    padding: `4px ${vars.spacing.sm}`,
+    height: '28px',
   },
 ])
 
 export const selectCompact = style([
   selectBase,
   {
-    padding: `6px ${vars.spacing.sm}`,
-    height: '36px',
+    padding: `4px ${vars.spacing.xs}`,
+    height: '28px',
+    fontSize: vars.fontSize.xs,
   },
 ])
