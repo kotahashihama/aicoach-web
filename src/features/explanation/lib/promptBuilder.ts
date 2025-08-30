@@ -8,21 +8,24 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
   beginner: {
     summary: {
       title: '## 概要',
-      description: 'コードの概要を初心者向けに平易な言葉で説明してください。',
+      description: 'コードが何をしているのか、平易な言葉で説明してください。',
     },
-    constructs: {
-      title: '## 主要な構文・API',
+    howItWorks: {
+      title: '## 動作の仕組み',
       description:
-        '使用されている主要な構文やAPIを箇条書きで説明してください。',
+        'コードがどう動くのか、重要な部分を中心に順を追って説明してください。',
     },
-    pitfalls: {
-      title: '## 注意点・落とし穴',
-      description: '注意すべき点や落とし穴を箇条書きで説明してください。',
+    keyTechniques: {
+      title: '## 使われている技術',
+      description: 'コードで使われている主要な機能、メソッド、パターンを箇条書きで説明してください。',
     },
-    alternative: {
-      title: '## より良い書き方',
-      description:
-        'より良い書き方の例があれば、15行以内のコードで示してください。',
+    watchOut: {
+      title: '## 注意点',
+      description: 'このコードを使う時に注意すべき点や、よくあるミスを箇条書きで説明してください。',
+    },
+    tips: {
+      title: '## ヒント',
+      description: 'このコードをより良く使うための実用的なアドバイスがあれば箇条書きで紹介してください。',
     },
   },
   intermediate: {
@@ -30,18 +33,26 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
       title: '## 概要',
       description: 'コードの構造と設計意図を説明してください。',
     },
-    constructs: {
-      title: '## 主要な構文・API',
+    howItWorks: {
+      title: '## 動作の仕組み',
       description:
-        '使用されている構文やAPIとその選択理由を箇条書きで説明してください。',
+        'データの流れや処理のフロー、アルゴリズムのポイントを説明してください。',
     },
-    pitfalls: {
-      title: '## 注意点・エッジケース',
-      description: '潜在的な問題やエッジケースを箇条書きで説明してください。',
+    keyTechniques: {
+      title: '## 使われている技術',
+      description: '設計パターン、フレームワークの機能、ベストプラクティスを箇条書きで説明してください。',
     },
-    alternative: {
-      title: '## より良い実装例',
-      description: 'より良い実装例があれば、15行以内のコードで示してください。',
+    watchOut: {
+      title: '## 注意点',
+      description: 'パフォーマンス上の懸念、エッジケース、メンテナンス時の課題を箇条書きで説明してください。',
+    },
+    tips: {
+      title: '## 実装のコツ',
+      description: 'より効率的な実装方法、リファクタリングのポイントがあれば箇条書きで紹介してください。',
+    },
+    relatedLinks: {
+      title: '## 参考リンク',
+      description: '公式ドキュメントや関連記事があれば箇条書きで紹介してください。',
     },
   },
   advanced: {
@@ -50,20 +61,22 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
       description:
         'アーキテクチャレベルの分析とパフォーマンス特性を説明してください。',
     },
-    constructs: {
-      title: '## 技術的詳細',
+    howItWorks: {
+      title: '## 動作の仕組み',
       description:
-        '技術選択の根拠、計算量、メモリ効率性を箇条書きで説明してください。',
+        '内部実装の詳細、計算量、メモリ効率、並行処理の仕組みを説明してください。',
     },
-    pitfalls: {
-      title: '## 潜在的な課題',
-      description:
-        'スケーラビリティの課題、並行性の問題、セキュリティリスクを箇条書きで説明してください。',
+    keyTechniques: {
+      title: '## 技術的な選択',
+      description: 'アルゴリズムの選定理由、トレードオフ、最適化手法、システム設計の原則を箇条書きで説明してください。',
     },
-    alternative: {
-      title: '## 最適化案',
-      description:
-        '業界のベストプラクティスに基づく最適化案があれば、15行以内のコードで示してください。',
+    watchOut: {
+      title: '## 潜在的な問題',
+      description: 'スケーラビリティ、セキュリティ、競合状態、メモリリークなどの深刻な問題を箇条書きで説明してください。',
+    },
+    tips: {
+      title: '## 最適化のアプローチ',
+      description: 'プロファイリング結果に基づく最適化、代替アルゴリズムがあれば箇条書きで紹介してください。',
     },
   },
 }
@@ -96,7 +109,7 @@ export const buildCodePrompt = (
 
   const toneInstruction = TONE_SETTINGS[tone]
 
-  let prompt = `以下の${langName}コードを解析して、以下の形式で解説してください。
+  let prompt = `以下の${langName}コードを解析して、理解しやすく解説してください。
 
 **口調に関する指示：**
 ${toneInstruction}
@@ -110,14 +123,22 @@ ${toneInstruction}
 ${sections.summary.title}
 ${sections.summary.description}
 
-${sections.constructs.title}
-${sections.constructs.description}
+${sections.howItWorks.title}
+${sections.howItWorks.description}
 
-${sections.pitfalls.title}
-${sections.pitfalls.description}
+${sections.keyTechniques.title}
+${sections.keyTechniques.description}
 
-${sections.alternative.title}
-${sections.alternative.description}`
+${sections.watchOut.title}
+${sections.watchOut.description}`
+
+  if (sections.tips) {
+    prompt += `\n\n${sections.tips.title}\n${sections.tips.description}`
+  }
+  
+  if (sections.relatedLinks) {
+    prompt += `\n\n${sections.relatedLinks.title}\n${sections.relatedLinks.description}`
+  }
 
   if (level === 'advanced') {
     prompt +=

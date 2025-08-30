@@ -34,12 +34,16 @@ export type Language =
 export interface Explanation {
   /** コードの概要説明 */
   summary: string
-  /** 使用されている言語構造や構文 */
-  constructs: string[]
-  /** 注意すべき点や落とし穴 */
-  pitfalls: string[]
-  /** より良い代替案（オプション） */
-  alternative?: string
+  /** このコードが動く仕組み */
+  howItWorks: string[]
+  /** 使われている技術やパターン */
+  keyTechniques: string[]
+  /** 注意すべき点 */
+  watchOut: string[]
+  /** ヒントとコツ（オプション） */
+  tips?: string[]
+  /** 関連リンク（オプション） */
+  relatedLinks?: string[]
 }
 
 /**

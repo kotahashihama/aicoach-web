@@ -88,9 +88,11 @@ const parseMarkdownToExplanation = (markdown: string): Explanation => {
   const sections = markdown.split(/##\s+/g)
 
   let summary = ''
-  let constructs: string[] = []
-  let pitfalls: string[] = []
-  let alternative: string | undefined
+  let howItWorks: string[] = []
+  let keyTechniques: string[] = []
+  let watchOut: string[] = []
+  let tips: string[] | undefined
+  let relatedLinks: string[] | undefined
 
   for (const section of sections) {
     const lines = section.trim().split('\n')
@@ -100,29 +102,36 @@ const parseMarkdownToExplanation = (markdown: string): Explanation => {
     if (title.includes('概要') || title.includes('変更')) {
       summary = content
     } else if (
-      title.includes('構文') ||
-      title.includes('api') ||
-      title.includes('技術')
+      title.includes('動作') ||
+      title.includes('仕組み')
     ) {
-      constructs = extractBulletPoints(content)
+      howItWorks = extractBulletPoints(content)
+    } else if (
+      title.includes('技術') ||
+      title.includes('パターン') ||
+      title.includes('api') ||
+      title.includes('選択')
+    ) {
+      keyTechniques = extractBulletPoints(content)
     } else if (
       title.includes('注意') ||
-      title.includes('落とし穴') ||
-      title.includes('エッジケース') ||
-      title.includes('課題')
+      title.includes('問題') ||
+      title.includes('エッジケース')
     ) {
-      pitfalls = extractBulletPoints(content)
+      watchOut = extractBulletPoints(content)
     } else if (
-      title.includes('書き方') ||
-      title.includes('実装') ||
-      title.includes('改善') ||
+      title.includes('ヒント') ||
+      title.includes('コツ') ||
       title.includes('最適化')
     ) {
-      /** コードブロックを抽出 */
-      const codeMatch = content.match(/```[\s\S]*?```/g)
-      if (codeMatch) {
-        alternative = codeMatch[0].replace(/```\w*\n?/g, '').trim()
-      }
+      const points = extractBulletPoints(content)
+      if (points.length > 0) tips = points
+    } else if (
+      title.includes('参考') ||
+      title.includes('リンク')
+    ) {
+      const links = extractBulletPoints(content)
+      if (links.length > 0) relatedLinks = links
     }
   }
 
@@ -130,18 +139,23 @@ const parseMarkdownToExplanation = (markdown: string): Explanation => {
   if (!summary) {
     summary = markdown.slice(0, 200) + '...'
   }
-  if (constructs.length === 0) {
-    constructs = ['解析結果を取得できませんでした']
+  if (howItWorks.length === 0) {
+    howItWorks = ['解析結果を取得できませんでした']
   }
-  if (pitfalls.length === 0) {
-    pitfalls = ['特に注意すべき点は見つかりませんでした']
+  if (keyTechniques.length === 0) {
+    keyTechniques = ['使用されている技術を特定できませんでした']
+  }
+  if (watchOut.length === 0) {
+    watchOut = ['特に注意すべき点は見つかりませんでした']
   }
 
   return {
     summary,
-    constructs,
-    pitfalls,
-    alternative,
+    howItWorks,
+    keyTechniques,
+    watchOut,
+    tips,
+    relatedLinks,
   }
 }
 
