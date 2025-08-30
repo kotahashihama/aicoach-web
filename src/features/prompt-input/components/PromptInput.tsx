@@ -84,7 +84,7 @@ export const PromptInput = ({
           onKeyDown={handleKeyDown}
           onCompositionStart={() => setIsComposing(true)}
           onCompositionEnd={() => setIsComposing(false)}
-          placeholder={`${getLanguageDisplayName(language)} のコードを生成するプロンプトを入力...（Enter で改行、Ctrl+Enter で送信）`}
+          placeholder={`${getLanguageDisplayName(language)} のコードを生成・変更する指示を入力...（Enter で改行、Ctrl+Enter で送信）`}
           disabled={loading}
           rows={2}
         />
@@ -99,7 +99,7 @@ export const PromptInput = ({
       </div>
       <div className={styles.promptHint}>
         例:
-        「フィボナッチ数列を計算する関数を作成して」「この関数にエラーハンドリングを追加して」
+        「フィボナッチ数列を計算する関数を作成して」「エラーハンドリングを追加して」「型定義を厳密にして」
       </div>
     </div>
   )
