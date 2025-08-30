@@ -6,14 +6,14 @@ export const explanation = style({
 })
 
 export const explanationSection = style({
-  marginBottom: vars.spacing.xxxl,
+  marginBottom: vars.spacing.lg,
 })
 
 export const sectionTitle = style({
   fontSize: vars.fontSize.xl,
   fontWeight: '600',
   color: vars.color.text.secondary,
-  marginBottom: vars.spacing.md,
+  marginBottom: vars.spacing.sm,
   paddingBottom: vars.spacing.sm,
   borderBottom: `1px solid ${vars.color.border.primary}`,
 })
@@ -35,7 +35,7 @@ export const pitfallsList = listBase
 const listItemBase = style({
   fontSize: vars.fontSize.sm,
   lineHeight: vars.lineHeight.relaxed,
-  padding: `${vars.spacing.sm} 0`,
+  padding: `${vars.spacing.xs} 0`,
   paddingLeft: vars.spacing.xl,
   position: 'relative',
 })

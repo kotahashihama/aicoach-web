@@ -26,8 +26,8 @@ globalStyle(`${markdownContent} h2`, {
   fontSize: vars.fontSize.xl,
   fontWeight: '600',
   color: vars.color.text.secondary,
-  marginTop: vars.spacing.xxl,
-  marginBottom: vars.spacing.md,
+  marginTop: vars.spacing.lg,
+  marginBottom: vars.spacing.sm,
   paddingBottom: vars.spacing.sm,
   borderBottom: `1px solid ${vars.color.border.primary}`,
 })
@@ -35,18 +35,18 @@ globalStyle(`${markdownContent} h2`, {
 globalStyle(`${markdownContent} ul`, {
   listStyle: 'none',
   padding: 0,
-  margin: `${vars.spacing.lg} 0`,
+  margin: `${vars.spacing.sm} 0`,
 })
 
 globalStyle(`${markdownContent} li`, {
   fontSize: vars.fontSize.sm,
   lineHeight: vars.lineHeight.relaxed,
-  padding: `${vars.spacing.sm} 0`,
+  padding: `${vars.spacing.xs} 0`,
   paddingLeft: vars.spacing.xl,
   position: 'relative',
 })
 
-globalStyle(`${markdownContent} li::before`, {
+globalStyle(`${markdownContent} ul > li::before`, {
   content: '"▸"',
   position: 'absolute',
   left: 0,
@@ -54,21 +54,18 @@ globalStyle(`${markdownContent} li::before`, {
 })
 
 globalStyle(`${markdownContent} pre`, {
-  backgroundColor: vars.color.background.primary,
-  border: `1px solid ${vars.color.border.primary}`,
-  borderRadius: vars.borderRadius.sm,
-  padding: vars.spacing.lg,
-  overflowX: 'auto',
-  margin: `${vars.spacing.lg} 0`,
+  margin: `${vars.spacing.md} 0`,
 })
 
-globalStyle(`${markdownContent} code`, {
+globalStyle(`${markdownContent} :not(pre) > code`, {
   fontFamily: vars.font.mono,
   fontSize: vars.fontSize.xs,
-  lineHeight: vars.lineHeight.normal,
+  backgroundColor: vars.color.background.tertiary,
+  padding: `2px 4px`,
+  borderRadius: '3px',
   color: vars.color.text.primary,
 })
 
 globalStyle(`${markdownContent} p`, {
-  margin: `${vars.spacing.md} 0`,
+  margin: `${vars.spacing.sm} 0`,
 })
