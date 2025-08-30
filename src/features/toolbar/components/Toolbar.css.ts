@@ -263,3 +263,10 @@ export const settingsButton = style({
   padding: vars.spacing.sm,
   minWidth: 'auto',
 })
+
+export const divider = style({
+  width: '1px',
+  height: '24px',
+  backgroundColor: vars.color.border.primary,
+  alignSelf: 'center',
+})

@@ -152,6 +152,8 @@ export const Toolbar = ({
           </div>
         </div>
 
+        <div className={styles.divider} />
+        
         <div className={styles.buttonsGroup}>
           <Button
             variant="secondary"
@@ -172,6 +174,8 @@ export const Toolbar = ({
             このコードを解説
           </Button>
 
+          <div className={styles.divider} />
+          
           <div className={styles.diffControls}>
             <div className={styles.diffSelectors}>
               <div className={styles.diffSelector}>
