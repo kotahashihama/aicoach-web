@@ -32,7 +32,7 @@ export const toolbarLeft = style({
   '@media': {
     [media.wide]: {
       width: '100%',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
     },
     [media.tablet]: {
       flexDirection: 'column',
@@ -82,11 +82,6 @@ export const buttonsGroup = style({
   '@media': {
     [media.desktop]: {
       gap: '6px',
-    },
-    [media.tablet]: {
-      width: '100%',
-      flexDirection: 'column',
-      gap: vars.spacing.sm,
     },
   },
 })
@@ -149,10 +144,6 @@ const buttonBase = style({
     [media.desktop]: {
       padding: `6px ${vars.spacing.md}`,
       fontSize: vars.fontSize.xs,
-    },
-    [media.tablet]: {
-      width: '100%',
-      padding: `${vars.spacing.sm} ${vars.spacing.md}`,
     },
   },
 })
