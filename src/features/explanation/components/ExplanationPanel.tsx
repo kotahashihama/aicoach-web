@@ -42,7 +42,7 @@ export const ExplanationPanel = ({
       {/* Explanationコンポーネントは使用しない - Markdownレンダリングのため常にStreamingExplanationを使用 */}
       {!loading && !error && !streamingContent && !explanation && (
         <div className={styles.emptyState}>
-          コードを入力して「このコードを解説」をクリックしてください
+          コードの解説がここに表示されます
         </div>
       )}
     </div>

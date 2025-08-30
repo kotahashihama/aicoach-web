@@ -7,6 +7,8 @@ export const explanationPanel = style({
   overflowY: 'auto',
   padding: vars.spacing.xl,
   backgroundColor: vars.color.background.secondary,
+  display: 'flex',
+  flexDirection: 'column',
   '@media': {
     [media.tablet]: {
       height: '50vh',
@@ -40,8 +42,9 @@ export const emptyState = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '200px',
+  flex: 1,
   color: vars.color.text.tertiary,
-  fontSize: vars.fontSize.lg,
+  fontSize: vars.fontSize.md,
   textAlign: 'center',
+  padding: vars.spacing.xl,
 })
