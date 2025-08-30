@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+.env.*
+pnpm-lock.yaml
+*.css.ts.vanilla.css
+*.css.ts.vanilla.css.map

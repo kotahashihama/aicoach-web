@@ -1,0 +1,82 @@
+import { style } from '@vanilla-extract/css'
+import { vars } from '../../../shared/styles/theme.css'
+
+export const explanation = style({
+  color: vars.color.text.primary,
+})
+
+export const explanationSection = style({
+  marginBottom: vars.spacing.xxxl,
+})
+
+export const sectionTitle = style({
+  fontSize: vars.fontSize.xl,
+  fontWeight: '600',
+  color: vars.color.text.secondary,
+  marginBottom: vars.spacing.md,
+  paddingBottom: vars.spacing.sm,
+  borderBottom: `1px solid ${vars.color.border.primary}`,
+})
+
+export const summary = style({
+  fontSize: vars.fontSize.md,
+  lineHeight: vars.lineHeight.relaxed,
+  color: vars.color.text.primary,
+})
+
+const listBase = style({
+  listStyle: 'none',
+  padding: 0,
+})
+
+export const constructsList = listBase
+export const pitfallsList = listBase
+
+const listItemBase = style({
+  fontSize: vars.fontSize.sm,
+  lineHeight: vars.lineHeight.relaxed,
+  padding: `${vars.spacing.sm} 0`,
+  paddingLeft: vars.spacing.xl,
+  position: 'relative',
+})
+
+export const constructsListItem = style([
+  listItemBase,
+  {
+    '::before': {
+      content: '"▸"',
+      position: 'absolute',
+      left: 0,
+      color: vars.color.brand.primary,
+    },
+  },
+])
+
+export const pitfallsListItem = style([
+  listItemBase,
+  {
+    color: vars.color.warning.text,
+    '::before': {
+      content: '"⚠"',
+      position: 'absolute',
+      left: 0,
+      color: vars.color.warning.text,
+    },
+  },
+])
+
+export const alternativeCode = style({
+  backgroundColor: vars.color.background.primary,
+  border: `1px solid ${vars.color.border.primary}`,
+  borderRadius: vars.borderRadius.sm,
+  padding: vars.spacing.lg,
+  overflowX: 'auto',
+})
+
+export const codeBlock = style({
+  fontFamily: vars.font.mono,
+  fontSize: vars.fontSize.xs,
+  lineHeight: vars.lineHeight.normal,
+  color: vars.color.text.primary,
+  whiteSpace: 'pre',
+})
