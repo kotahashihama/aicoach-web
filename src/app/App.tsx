@@ -8,9 +8,12 @@ import {
   explainDiffHeuristicallyStream,
 } from '../features/explanation'
 import { CodeEditor } from '../features/code-editor'
+import { PromptInput } from '../features/prompt-input'
+import { generateCode } from '../features/code-generation'
 import { useAPIKey } from '../features/api-key'
 import { ExplainLevel, Language, MonacoEditorInstance } from '../shared/types'
 import { ERROR_MESSAGES } from '../shared/constants'
+import { handleAPIError } from '../shared/lib/errorHandling'
 import * as styles from './App.css'
 
 /**
@@ -22,6 +25,7 @@ export const App = () => {
   const [previousCode, setPreviousCode] = useState('')
   const [level, setLevel] = useState<ExplainLevel>('beginner')
   const [language, setLanguage] = useState<Language>('typescript')
+  const [codeGenerating, setCodeGenerating] = useState(false)
   const { apiKey, updateAPIKey } = useAPIKey()
   const {
     explanation,
@@ -81,6 +85,26 @@ export const App = () => {
     await executeStream(generator)
   }
 
+  /**
+   * プロンプトからコードを生成・変更します
+   * 既存のコードがある場合はそれを起点として変更します
+   * @param prompt - コード生成・変更のプロンプト
+   */
+  const handleGenerateCode = async (prompt: string) => {
+    setCodeGenerating(true)
+    setValidationError(null)
+    
+    try {
+      const generatedCode = await generateCode(prompt, language, apiKey, code)
+      setCode(generatedCode)
+      setPreviousCode(code) // 現在のコードを以前のコードとして保存
+    } catch (err) {
+      setValidationError(handleAPIError(err))
+    } finally {
+      setCodeGenerating(false)
+    }
+  }
+
   return (
     <div className={styles.app}>
       <Toolbar
@@ -96,13 +120,22 @@ export const App = () => {
         onApiKeyChange={updateAPIKey}
       />
 
+      <PromptInput
+        language={language}
+        loading={codeGenerating}
+        onGenerateCode={handleGenerateCode}
+      />
+
       <div className={styles.mainContent}>
-        <CodeEditor
-          code={code}
-          language={language}
-          onChange={setCode}
-          onMount={handleEditorDidMount}
-        />
+        <div className={styles.leftColumn}>
+          <CodeEditor
+            code={code}
+            language={language}
+            onChange={setCode}
+            onMount={handleEditorDidMount}
+            disabled={codeGenerating}
+          />
+        </div>
 
         <ExplanationPanel
           error={error}

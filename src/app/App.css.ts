@@ -17,3 +17,10 @@ export const mainContent = style({
     },
   },
 })
+
+export const leftColumn = style({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  overflow: 'hidden',
+})

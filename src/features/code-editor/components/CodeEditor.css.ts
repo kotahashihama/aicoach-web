@@ -6,6 +6,7 @@ export const editorPanel = style({
   flex: 1,
   overflow: 'hidden',
   borderRight: `1px solid ${vars.color.border.primary}`,
+  transition: `opacity ${vars.transition.fast}`,
   '@media': {
     [media.tablet]: {
       borderRight: 'none',
@@ -16,4 +17,9 @@ export const editorPanel = style({
       height: '45vh',
     },
   },
+})
+
+export const editorPanelDisabled = style({
+  opacity: 0.7,
+  pointerEvents: 'none',
 })

@@ -15,6 +15,8 @@ interface CodeEditorProps {
   onChange: (value: string) => void
   /** エディタがマウントされたときのコールバック */
   onMount?: OnMount
+  /** エディタを無効化するかどうか */
+  disabled?: boolean
 }
 
 /**
@@ -31,9 +33,10 @@ export const CodeEditor = ({
   language,
   onChange,
   onMount,
+  disabled = false,
 }: CodeEditorProps) => {
   return (
-    <div className={styles.editorPanel}>
+    <div className={`${styles.editorPanel} ${disabled ? styles.editorPanelDisabled : ''}`}>
       <Editor
         height="100%"
         language={language}
@@ -57,6 +60,7 @@ export const CodeEditor = ({
           insertSpaces: true,
           formatOnPaste: true,
           formatOnType: true,
+          readOnly: disabled,
         }}
         theme="vs-dark"
       />

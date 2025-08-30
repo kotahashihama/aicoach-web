@@ -1,0 +1,78 @@
+import { style } from '@vanilla-extract/css'
+import { vars } from '../../../shared/styles/theme.css'
+
+export const promptInputContainer = style({
+  padding: vars.spacing.md,
+  backgroundColor: vars.color.background.secondary,
+  borderBottom: `1px solid ${vars.color.border.primary}`,
+  transition: `opacity ${vars.transition.fast}`,
+})
+
+export const promptInputContainerLoading = style({
+  opacity: 0.6,
+  pointerEvents: 'none',
+})
+
+export const promptInputWrapper = style({
+  display: 'flex',
+  gap: vars.spacing.sm,
+  alignItems: 'flex-end',
+})
+
+export const promptTextarea = style({
+  flex: 1,
+  padding: vars.spacing.sm,
+  backgroundColor: vars.color.background.primary,
+  color: vars.color.text.primary,
+  border: `1px solid ${vars.color.border.primary}`,
+  borderRadius: vars.borderRadius.md,
+  fontSize: vars.fontSize.sm,
+  fontFamily: vars.font.system,
+  resize: 'none',
+  minHeight: '40px',
+  maxHeight: '120px',
+  lineHeight: 1.5,
+  transition: 'border-color 0.2s ease',
+  
+  ':focus': {
+    outline: 'none',
+    borderColor: vars.color.brand.primary,
+  },
+  
+  ':disabled': {
+    opacity: 0.6,
+    cursor: 'not-allowed',
+  },
+  
+  '::placeholder': {
+    color: vars.color.text.tertiary,
+  },
+})
+
+export const generateButton = style({
+  padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+  backgroundColor: vars.color.brand.primary,
+  color: vars.color.background.primary,
+  border: 'none',
+  borderRadius: vars.borderRadius.md,
+  fontSize: vars.fontSize.sm,
+  fontWeight: 500,
+  cursor: 'pointer',
+  transition: 'all 0.2s ease',
+  whiteSpace: 'nowrap',
+  
+  ':hover': {
+    opacity: 0.9,
+  },
+  
+  ':disabled': {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+  },
+})
+
+export const promptHint = style({
+  marginTop: vars.spacing.xs,
+  fontSize: vars.fontSize.xs,
+  color: vars.color.text.tertiary,
+})
