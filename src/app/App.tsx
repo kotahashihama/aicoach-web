@@ -12,7 +12,7 @@ import { PromptInput } from '../features/prompt-input'
 import { generateCode } from '../features/code-generation'
 import { useAPIKey } from '../features/api-key'
 import { Snackbar, useSnackbar } from '../features/snackbar'
-import { ExplainLevel, Language, MonacoEditorInstance } from '../shared/types'
+import { ExplainLevel, ExplainTone, Language, MonacoEditorInstance } from '../shared/types'
 import { ERROR_MESSAGES } from '../shared/constants'
 import { handleAPIError } from '../shared/lib/errorHandling'
 import * as styles from './App.css'
@@ -25,6 +25,7 @@ export const App = () => {
   const [code, setCode] = useState('')
   const [savedCode, setSavedCode] = useState('')
   const [level, setLevel] = useState<ExplainLevel>('beginner')
+  const [tone, setTone] = useState<ExplainTone>('normal')
   const [language, setLanguage] = useState<Language>('typescript')
   const [codeGenerating, setCodeGenerating] = useState(false)
   const [isExplaining, setIsExplaining] = useState(false)
@@ -65,7 +66,7 @@ export const App = () => {
 
     setValidationError(null)
     setIsExplaining(true)
-    const generator = explainHeuristicallyStream(code, language, level, apiKey)
+    const generator = explainHeuristicallyStream(code, language, level, tone, apiKey)
     await executeStream(generator)
     setIsExplaining(false)
   }
@@ -94,6 +95,7 @@ export const App = () => {
       code,
       language,
       level,
+      tone,
       apiKey,
     )
     await executeStream(generator)
@@ -133,6 +135,8 @@ export const App = () => {
       <Toolbar
         level={level}
         onLevelChange={setLevel}
+        tone={tone}
+        onToneChange={setTone}
         language={language}
         onLanguageChange={setLanguage}
         onExplain={handleExplain}

@@ -1,4 +1,4 @@
-import { ExplainLevel, PromptSection } from '../../../shared/types'
+import { ExplainLevel, ExplainTone, PromptSection } from '../../../shared/types'
 import { getLanguageDisplayName } from '../../../shared/lib/language'
 
 /**
@@ -69,21 +69,37 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
 }
 
 /**
+ * トーンごとの口調設定
+ */
+const TONE_SETTINGS: Record<ExplainTone, string> = {
+  casual: 'カジュアルな口調で、友人に話すように解説してください。「〜だね」「〜だよ」などを使ってください。',
+  normal: '標準的な口調で解説してください。「〜です」「〜ます」を使ってください。',
+  formal: 'フォーマルで丁寧な口調で解説してください。「〜でございます」「〜いたします」を使ってください。',
+}
+
+/**
  * コード解説用のプロンプトを構築します
  * @param code - 解説するコード
  * @param lang - プログラミング言語
  * @param level - 解説レベル
+ * @param tone - 解説のトーン
  * @returns 構築されたプロンプト
  */
 export const buildCodePrompt = (
   code: string,
   lang: string,
   level: ExplainLevel,
+  tone: ExplainTone,
 ): string => {
   const sections = PROMPT_SECTIONS[level]
   const langName = getLanguageDisplayName(lang)
 
+  const toneInstruction = TONE_SETTINGS[tone]
+
   let prompt = `以下の${langName}コードを解析して、以下の形式で解説してください。
+
+**口調に関する指示：**
+${toneInstruction}
 
 **文章作成時の重要な注意事項：**
 - 日本語と英語（単語・記号・数字）の間には必ず半角スペースを入れてください
@@ -119,6 +135,7 @@ ${sections.alternative.description}`
  * @param after - 変更後のコード
  * @param lang - プログラミング言語
  * @param level - 解説レベル
+ * @param tone - 解説のトーン
  * @returns 構築されたプロンプト
  */
 export const buildDiffPrompt = (
@@ -126,6 +143,7 @@ export const buildDiffPrompt = (
   after: string,
   lang: string,
   level: ExplainLevel,
+  tone: ExplainTone,
 ): string => {
   const langName = getLanguageDisplayName(lang)
   const levelText =
@@ -134,8 +152,12 @@ export const buildDiffPrompt = (
       : level === 'intermediate'
         ? '中級者'
         : '上級者'
+  const toneInstruction = TONE_SETTINGS[tone]
 
   return `以下の${langName}コードの変更を${levelText}向けに解説してください。
+
+**口調に関する指示：**
+${toneInstruction}
 
 **文章作成時の重要な注意事項：**
 - 日本語と英語（単語・記号・数字）の間には必ず半角スペースを入れてください

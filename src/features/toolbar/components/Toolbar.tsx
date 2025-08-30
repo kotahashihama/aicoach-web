@@ -1,4 +1,4 @@
-import { ToolbarProps, ExplainLevel, Language } from '../../../shared/types'
+import { ToolbarProps, ExplainLevel, ExplainTone, Language } from '../../../shared/types'
 import { Button } from '../../../shared/components/Button'
 import * as styles from './Toolbar.css'
 
@@ -34,6 +34,15 @@ const isExplainLevel = (value: string): value is ExplainLevel => {
 }
 
 /**
+ * トーンの値が有効なExplainTone型かどうかを判定する型ガード
+ * @param value - 検証する値
+ * @returns ExplainTone型として有効な場合はtrue
+ */
+const isExplainTone = (value: string): value is ExplainTone => {
+  return value === 'casual' || value === 'normal' || value === 'formal'
+}
+
+/**
  * ツールバーコンポーネント
  *
  * エディタの上部に配置され、言語選択、解説レベル選択、
@@ -45,6 +54,8 @@ const isExplainLevel = (value: string): value is ExplainLevel => {
 export const Toolbar = ({
   level,
   onLevelChange,
+  tone,
+  onToneChange,
   language,
   onLanguageChange,
   onExplain,
@@ -110,6 +121,28 @@ export const Toolbar = ({
               <option value="beginner">初心者</option>
               <option value="intermediate">中級者</option>
               <option value="advanced">上級者</option>
+            </select>
+          </div>
+
+          <div className={styles.toneSelector}>
+            <label htmlFor="tone" className={styles.selectorLabel}>
+              トーン
+            </label>
+            <select
+              id="tone"
+              className={styles.select}
+              value={tone}
+              onChange={(e) => {
+                const value = e.target.value
+                if (isExplainTone(value)) {
+                  onToneChange(value)
+                }
+              }}
+              disabled={loading}
+            >
+              <option value="casual">カジュアル</option>
+              <option value="normal">通常</option>
+              <option value="formal">フォーマル</option>
             </select>
           </div>
         </div>

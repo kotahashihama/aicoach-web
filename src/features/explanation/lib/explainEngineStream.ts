@@ -1,4 +1,4 @@
-import { ExplainLevel, Explanation } from '../../../shared/types'
+import { ExplainLevel, ExplainTone, Explanation } from '../../../shared/types'
 import { maskSensitiveData, truncateCode } from '../../../shared/lib/mask'
 import { createOpenAIStream, processStream } from './streamUtils'
 import { buildCodePrompt, buildDiffPrompt } from './promptBuilder'
@@ -9,6 +9,7 @@ import { assertAPIKey } from '../../../shared/lib/errorHandling'
  * @param code - 解説するコード
  * @param lang - プログラミング言語
  * @param level - 解説レベル
+ * @param tone - 解説のトーン
  * @param apiKey - OpenAI APIキー
  * @yields ストリーミングテキスト
  * @returns 最終的な解説オブジェクト
@@ -17,13 +18,14 @@ export const explainHeuristicallyStream = async function* (
   code: string,
   lang: string,
   level: ExplainLevel,
+  tone: ExplainTone,
   apiKey: string,
 ): AsyncGenerator<string, Explanation, unknown> {
   assertAPIKey(apiKey)
 
   const maskedCode = maskSensitiveData(code)
   const truncatedCode = truncateCode(maskedCode)
-  const prompt = buildCodePrompt(truncatedCode, lang, level)
+  const prompt = buildCodePrompt(truncatedCode, lang, level, tone)
 
   const reader = await createOpenAIStream({ apiKey, prompt })
   const generator = processStream(reader)
@@ -44,6 +46,7 @@ export const explainHeuristicallyStream = async function* (
  * @param after - 変更後のコード
  * @param lang - プログラミング言語
  * @param level - 解説レベル
+ * @param tone - 解説のトーン
  * @param apiKey - OpenAI APIキー
  * @yields ストリーミングテキスト
  * @returns 最終的な解説オブジェクト
@@ -53,6 +56,7 @@ export const explainDiffHeuristicallyStream = async function* (
   after: string,
   lang: string,
   level: ExplainLevel,
+  tone: ExplainTone,
   apiKey: string,
 ): AsyncGenerator<string, Explanation, unknown> {
   assertAPIKey(apiKey)
@@ -61,7 +65,7 @@ export const explainDiffHeuristicallyStream = async function* (
   const maskedAfter = maskSensitiveData(after)
   const truncatedBefore = truncateCode(maskedBefore)
   const truncatedAfter = truncateCode(maskedAfter)
-  const prompt = buildDiffPrompt(truncatedBefore, truncatedAfter, lang, level)
+  const prompt = buildDiffPrompt(truncatedBefore, truncatedAfter, lang, level, tone)
 
   const reader = await createOpenAIStream({ apiKey, prompt })
   const generator = processStream(reader)
