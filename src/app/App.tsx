@@ -204,12 +204,6 @@ export const App = () => {
           onOpenSettings={() => setIsSettingsOpen(true)}
         />
 
-        <PromptInput
-          language={language}
-          loading={codeGenerating}
-          onGenerateCode={handleGenerateCode}
-        />
-
         <div className={styles.mainContent}>
           <div className={styles.leftColumn}>
             <CodeEditor
@@ -230,6 +224,12 @@ export const App = () => {
             level={level}
           />
         </div>
+        
+        <PromptInput
+          language={language}
+          loading={codeGenerating}
+          onGenerateCode={handleGenerateCode}
+        />
       </div>
       
       <Snackbar

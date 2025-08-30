@@ -4,7 +4,7 @@ import { vars } from '../../../shared/styles/theme.css'
 export const promptInputContainer = style({
   padding: vars.spacing.md,
   backgroundColor: vars.color.background.secondary,
-  borderBottom: `1px solid ${vars.color.border.primary}`,
+  borderTop: `1px solid ${vars.color.border.primary}`,
   transition: `opacity ${vars.transition.fast}`,
 })
 
