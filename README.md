@@ -1,14 +1,25 @@
 # AI Coach Web
 
-記述されたコードを**その場で理解できる**Webアプリ。OpenAI APIを使用してコードの解説を生成します。
+AI がコードの**解説・生成・修正**をサポートする Web アプリ。OpenAI API を使用してコードの理解と開発を支援します。
 
 ![ai-coach-demo](demo.png)
 
 ## 機能
 
+### コード解説
 - **初心者/中級者/上級者向けの解説レベル切り替え**
-- **コード変更の差分解説**
+- **カジュアル/通常/フォーマルの文体選択**
 - **リアルタイムストリーミング表示**
+
+### コード生成・修正
+- **自然言語プロンプトによるコード生成**
+- **既存コードの AI による修正・改善**
+- **複数言語対応**（TypeScript, JavaScript, Python, Go, Ruby, PHP, Vue.js）
+
+### バージョン管理
+- **コードスナップショットの保存・復元**
+- **バージョン間の差分解説**
+- **ビジュアルなバージョン履歴表示**
 
 ## クイックスタート
 
@@ -24,68 +35,78 @@ pnpm install
 pnpm dev
 ```
 
-OpenAI APIキーの設定:
+OpenAI API キーの設定:
 
-- 環境変数: `.env.example`を`.env`にコピーして`VITE_OPENAI_API_KEY`を設定
-- またはアプリ内の入力欄に直接入力
+- 環境変数: `.env.example` を `.env` にコピーして `VITE_OPENAI_API_KEY` を設定
+- またはアプリ内の設定モーダル（歯車アイコン）から入力
 
 ## 使い方
 
 ### 基本的な使い方
 
-1. **APIキーを設定**（初回のみ）
-   - 右上の入力欄にOpenAI APIキーを入力
-2. **コードを入力**
-   - 左側のエディタに解説したいコードを貼り付け
-3. **解説レベルを選択**
-   - 初心者: 平易な言葉で基本概念を説明
-   - 中級者: 設計意図や潜在的な問題点まで解説
-   - 上級者: パフォーマンスやセキュリティの観点から分析
-4. **「このコードを解説」をクリック**
-   - 右側のパネルにAIによる解説が表示されます
+1. **API キーを設定**（初回のみ）
+   - ツールバーの歯車アイコンから設定モーダルを開く
+   - OpenAI API キーを入力して保存
+2. **言語を選択**
+   - ドロップダウンから解説したいコードの言語を選択
+3. **コードを入力**
+   - Monaco エディタに解説したいコードを入力または貼り付け
+4. **解説設定を選択**
+   - **レベル**: 初心者/中級者/上級者
+   - **文体**: カジュアル/通常/フォーマル
+5. **「このコードを解説」をクリック**
+   - 右側のパネルに AI による解説がストリーミング表示されます
 
-### 差分解説機能
+### コード生成・修正機能
 
-1. **まず通常の解説を実行**（必須）
-   ```typescript
-   // 例: 最初のコード
-   async function fetchData() {
-     const response = await fetch('/api/data')
-     return response.json()
-   }
-   ```
-2. **コードを修正**
-   ```typescript
-   // エラーハンドリングを追加
-   async function fetchData() {
-     try {
-       const response = await fetch('/api/data')
-       if (!response.ok) throw new Error('Failed')
-       return response.json()
-     } catch (error) {
-       console.error(error)
-       throw error
-     }
-   }
-   ```
-3. **「変更差分を解説」をクリック**
-   - 変更内容と改善点が解説されます
+1. **プロンプト入力**
+   - 画面下部のテキストエリアに自然言語で指示を入力
+   - 例: "エラーハンドリングを追加して"
+2. **生成実行**
+   - `Ctrl+Enter`（Mac では `Cmd+Enter`）で生成開始
+   - または「生成」ボタンをクリック
+3. **結果確認**
+   - エディタに生成されたコードが表示されます
+   - 必要に応じて手動で編集可能
+
+### バージョン管理機能
+
+1. **バージョン保存**
+   - コードを編集後、自動的にスナップショットが保存される
+2. **履歴表示**
+   - 左側のサイドバーでバージョン履歴を確認
+3. **バージョン選択**
+   - 任意のバージョンをクリックして復元
+4. **差分解説**
+   - ベースとヘッドのバージョンを選択
+   - 「変更差分を解説」をクリックして変更内容を解説
+
+### テーマとレイアウト
+
+- **テーマ切り替え**: ツールバーの太陽/月アイコン
+- **パネルリサイズ**: エディタと解説パネル間の境界をドラッグ
+- **設定保存**: テーマやレイアウトは自動的に保存されます
 
 ## 技術スタック
 
-- **Frontend**: React 19 + TypeScript + Vite
-- **Editor**: Monaco Editor
+- **Frontend**: React 19 + TypeScript 5.9 + Vite 7
+- **Editor**: Monaco Editor 4
 - **Styling**: vanilla-extract
-- **AI**: OpenAI API (gpt-4o)
+- **Markdown**: react-markdown + react-syntax-highlighter
+- **Validation**: Zod 4
+- **AI**: OpenAI API (gpt-4o-mini)
+- **Node.js**: >=22.12.0
+- **パッケージマネージャ**: pnpm 10.15.0
 
 ## 開発
 
 詳細は [CLAUDE.md](./CLAUDE.md) を参照
 
 ```bash
-pnpm run dev       # 開発サーバー
-pnpm run build     # ビルド
-pnpm run typecheck # 型チェック
-pnpm run lint      # ESLintチェック
-pnpm run format    # Prettierフォーマット
+pnpm dev        # 開発サーバー起動
+pnpm build      # プロダクションビルド
+pnpm preview    # ビルド結果をプレビュー
+pnpm tsc --noEmit   # 型チェック
+pnpm lint       # ESLint チェック
+pnpm format     # Prettier フォーマット
 ```
