@@ -59,7 +59,7 @@ globalStyle(`${markdownContent} :not(pre) > code`, {
   fontSize: vars.fontSize.xs,
   backgroundColor: vars.color.background.tertiary,
   padding: `2px 4px`,
-  borderRadius: '3px',
+  borderRadius: vars.borderRadius.sm,
   color: vars.color.text.primary,
 })
 

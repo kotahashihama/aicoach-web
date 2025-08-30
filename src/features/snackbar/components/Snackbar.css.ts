@@ -21,7 +21,7 @@ const baseSnackbar = style({
   alignItems: 'center',
   gap: vars.spacing.md,
   padding: `${vars.spacing.md} ${vars.spacing.lg}`,
-  borderRadius: vars.borderRadius.md,
+  borderRadius: vars.borderRadius.sm,
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.4)',
   animation: `${slideIn} 0.3s ease-out`,
   zIndex: 1000,
