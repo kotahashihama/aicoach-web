@@ -1,4 +1,5 @@
 import { ExplainLevel, PromptSection } from '../../../shared/types'
+import { getLanguageDisplayName } from '../../../shared/lib/language'
 
 /**
  * 解説レベルごとのプロンプトセクション定義
@@ -80,7 +81,7 @@ export const buildCodePrompt = (
   level: ExplainLevel,
 ): string => {
   const sections = PROMPT_SECTIONS[level]
-  const langName = lang === 'typescript' ? 'TypeScript' : 'JavaScript'
+  const langName = getLanguageDisplayName(lang)
 
   let prompt = `以下の${langName}コードを解析して、以下の形式で解説してください：
 
@@ -120,7 +121,7 @@ export const buildDiffPrompt = (
   lang: string,
   level: ExplainLevel,
 ): string => {
-  const langName = lang === 'typescript' ? 'TypeScript' : 'JavaScript'
+  const langName = getLanguageDisplayName(lang)
   const levelText =
     level === 'beginner'
       ? '初心者'

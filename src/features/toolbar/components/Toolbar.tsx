@@ -7,7 +7,18 @@ import * as styles from './Toolbar.css'
  * @returns Language型として有効な場合はtrue
  */
 const isLanguage = (value: string): value is Language => {
-  return value === 'typescript' || value === 'javascript'
+  const validLanguages: Language[] = [
+    'typescript',
+    'javascript',
+    'typescriptreact',
+    'javascriptreact',
+    'python',
+    'go',
+    'ruby',
+    'php',
+    'vue',
+  ]
+  return validLanguages.includes(value as Language)
 }
 
 /**
@@ -63,7 +74,14 @@ export const Toolbar = ({
               disabled={loading}
             >
               <option value="typescript">TypeScript</option>
+              <option value="typescriptreact">TypeScript JSX</option>
               <option value="javascript">JavaScript</option>
+              <option value="javascriptreact">JavaScript JSX</option>
+              <option value="python">Python</option>
+              <option value="go">Go</option>
+              <option value="ruby">Ruby</option>
+              <option value="php">PHP</option>
+              <option value="vue">Vue.js</option>
             </select>
           </div>
 

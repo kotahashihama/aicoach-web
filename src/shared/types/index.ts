@@ -9,7 +9,16 @@ export type ExplainLevel = 'beginner' | 'intermediate' | 'advanced'
 /**
  * サポートされているプログラミング言語
  */
-export type Language = 'typescript' | 'javascript'
+export type Language =
+  | 'typescript'
+  | 'javascript'
+  | 'typescriptreact' // TypeScript JSX (TSX)
+  | 'javascriptreact' // JavaScript JSX
+  | 'python'
+  | 'go'
+  | 'ruby'
+  | 'php'
+  | 'vue'
 
 /**
  * コード解説の内容

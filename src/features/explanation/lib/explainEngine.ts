@@ -1,6 +1,7 @@
 import { ExplainLevel, Explanation } from '../../../shared/types'
 import { maskSensitiveData, truncateCode } from '../../../shared/lib/mask'
 import { assertAPIKey, createAPIError } from '../../../shared/lib/errorHandling'
+import { getLanguageDisplayName } from '../../../shared/lib/language'
 import { API_CONFIG, ERROR_MESSAGES } from '../../../shared/constants'
 
 interface OpenAIResponse {
@@ -34,8 +35,10 @@ export const explainHeuristically = async (
 
   let prompt: string
 
+  const langName = getLanguageDisplayName(lang)
+
   if (level === 'beginner') {
-    prompt = `以下の${lang === 'typescript' ? 'TypeScript' : 'JavaScript'}コードを初心者向けに解説してください。
+    prompt = `以下の${langName}コードを初心者向けに解説してください。
 重要：必ず以下のJSON形式で返答してください。他の形式は使用しないでください。
 
 {
@@ -48,7 +51,7 @@ export const explainHeuristically = async (
 コード：
 ${truncatedCode}`
   } else if (level === 'intermediate') {
-    prompt = `以下の${lang === 'typescript' ? 'TypeScript' : 'JavaScript'}コードを中級者向けに解説してください。
+    prompt = `以下の${langName}コードを中級者向けに解説してください。
 重要：必ず以下のJSON形式で返答してください。他の形式は使用しないでください。
 
 {
@@ -61,7 +64,7 @@ ${truncatedCode}`
 コード：
 ${truncatedCode}`
   } else {
-    prompt = `以下の${lang === 'typescript' ? 'TypeScript' : 'JavaScript'}コードを上級者向けに解説してください。
+    prompt = `以下の${langName}コードを上級者向けに解説してください。
 重要：必ず以下のJSON形式で返答してください。他の形式は使用しないでください。
 
 {
@@ -182,13 +185,15 @@ export const explainDiffHeuristically = async (
   const truncatedBefore = truncateCode(maskedBefore)
   const truncatedAfter = truncateCode(maskedAfter)
 
+  const langName = getLanguageDisplayName(lang)
+
   const levelText =
     level === 'beginner'
       ? '初心者'
       : level === 'intermediate'
         ? '中級者'
         : '上級者'
-  const prompt = `以下の${lang === 'typescript' ? 'TypeScript' : 'JavaScript'}コードの変更を${levelText}向けに解説してください。
+  const prompt = `以下の${langName}コードの変更を${levelText}向けに解説してください。
 重要：必ず以下のJSON形式で返答してください。他の形式は使用しないでください。
 
 {
