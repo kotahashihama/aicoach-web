@@ -52,26 +52,22 @@ export const VersionSidebar = ({
             {isOpen ? '◀' : '▶'}
           </Button>
         </div>
-        {isOpen && (
-          <div className={styles.versionList}>
-            {versions.map((version) => (
-              <button
-                key={version.id}
-                className={`${styles.versionItem} ${
-                  selectedVersionId === version.id
-                    ? styles.versionItemActive
-                    : ''
-                }`}
-                onClick={() => onSelectVersion(version.id)}
-              >
-                <span className={styles.versionId}>{version.id}</span>
-                <span className={styles.versionDate}>
-                  {formatDate(version.savedAt)}
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
+        <div className={styles.versionList}>
+          {versions.map((version) => (
+            <button
+              key={version.id}
+              className={`${styles.versionItem} ${
+                selectedVersionId === version.id ? styles.versionItemActive : ''
+              }`}
+              onClick={() => onSelectVersion(version.id)}
+            >
+              <span className={styles.versionId}>{version.id}</span>
+              <span className={styles.versionDate}>
+                {formatDate(version.savedAt)}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
       {!isOpen && (
         <div className={styles.sidebarToggle}>

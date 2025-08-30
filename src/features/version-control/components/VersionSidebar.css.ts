@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css'
 import { vars } from '../../../shared/styles/theme.css'
 
 export const sidebar = style({
+  position: 'relative',
   width: '160px',
   backgroundColor: vars.color.background.secondary,
   borderRight: `1px solid ${vars.color.border.primary}`,
@@ -9,7 +10,9 @@ export const sidebar = style({
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
-  transition: `width ${vars.transition.normal}`,
+  transition: `transform ${vars.transition.normal}, width ${vars.transition.normal}`,
+  transform: 'translateX(0)',
+  overflow: 'hidden',
 })
 
 export const header = style({
@@ -18,6 +21,7 @@ export const header = style({
   justifyContent: 'space-between',
   padding: vars.spacing.sm,
   borderBottom: `1px solid ${vars.color.border.primary}`,
+  flexShrink: 0,
 })
 
 export const title = style({
@@ -25,6 +29,7 @@ export const title = style({
   fontWeight: '600',
   color: vars.color.text.secondary,
   margin: 0,
+  whiteSpace: 'nowrap',
 })
 
 export const versionList = style({
@@ -61,17 +66,18 @@ export const versionId = style({
   fontSize: vars.fontSize.xs,
   fontWeight: '500',
   color: vars.color.text.primary,
+  whiteSpace: 'nowrap',
 })
 
 export const versionDate = style({
   fontSize: vars.fontSize.xs,
   color: vars.color.text.tertiary,
+  whiteSpace: 'nowrap',
 })
 
 export const sidebarClosed = style({
   width: '0',
-  overflow: 'hidden',
-  transition: `width ${vars.transition.normal}`,
+  transform: 'translateX(-160px)',
 })
 
 export const sidebarToggle = style({
@@ -86,4 +92,5 @@ export const sidebarToggle = style({
   borderBottom: `1px solid ${vars.color.border.primary}`,
   borderTopRightRadius: vars.borderRadius.sm,
   borderBottomRightRadius: vars.borderRadius.sm,
+  transition: `opacity ${vars.transition.fast}`,
 })
