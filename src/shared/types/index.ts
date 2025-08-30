@@ -48,11 +48,13 @@ export interface ToolbarProps {
   onLanguageChange: (language: Language) => void
   onExplain: () => void
   onExplainDiff: () => void
+  onSaveCode: () => void
   canExplainDiff: boolean
   loading: boolean
   apiKey: string
   onApiKeyChange: (key: string) => void
   code: string
+  savedCode: string
   isExplaining: boolean
   isExplainingDiff: boolean
 }

@@ -49,11 +49,13 @@ export const Toolbar = ({
   onLanguageChange,
   onExplain,
   onExplainDiff,
+  onSaveCode,
   canExplainDiff,
   loading,
   apiKey,
   onApiKeyChange,
   code,
+  savedCode,
   isExplaining,
   isExplainingDiff,
 }: ToolbarProps) => {
@@ -114,6 +116,15 @@ export const Toolbar = ({
 
         <div className={styles.buttonsGroup}>
           <Button
+            variant="secondary"
+            onClick={onSaveCode}
+            disabled={!code.trim() || code === savedCode}
+            title={!code.trim() ? 'コードを入力してください' : code === savedCode ? '変更がありません' : ''}
+          >
+            保存
+          </Button>
+
+          <Button
             variant="primary"
             onClick={onExplain}
             loading={isExplaining}
@@ -124,11 +135,11 @@ export const Toolbar = ({
           </Button>
 
           <Button
-            variant="secondary"
+            variant="primary"
             onClick={onExplainDiff}
             loading={isExplainingDiff}
-            disabled={!canExplainDiff || isExplaining}
-            title={!canExplainDiff ? 'コードに変更を加えてください' : ''}
+            disabled={!code.trim() || !canExplainDiff || isExplaining}
+            title={!code.trim() ? 'コードを入力してください' : !canExplainDiff ? 'コードを保存してから変更してください' : ''}
           >
             変更差分を解説
           </Button>

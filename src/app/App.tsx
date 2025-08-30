@@ -23,7 +23,7 @@ import * as styles from './App.css'
  */
 export const App = () => {
   const [code, setCode] = useState('')
-  const [previousCode, setPreviousCode] = useState('')
+  const [savedCode, setSavedCode] = useState('')
   const [level, setLevel] = useState<ExplainLevel>('beginner')
   const [language, setLanguage] = useState<Language>('typescript')
   const [codeGenerating, setCodeGenerating] = useState(false)
@@ -67,15 +67,22 @@ export const App = () => {
     setIsExplaining(true)
     const generator = explainHeuristicallyStream(code, language, level, apiKey)
     await executeStream(generator)
-    setPreviousCode(code)
     setIsExplaining(false)
+  }
+  
+  /**
+   * 現在のコードを保存します
+   */
+  const handleSaveCode = () => {
+    setSavedCode(code)
+    snackbar.showSnackbar('コードを保存しました', 'success')
   }
 
   /**
    * コードの差分解説を実行します
    */
   const handleExplainDiff = async () => {
-    if (!code.trim() || !previousCode.trim()) {
+    if (!code.trim() || !savedCode.trim()) {
       setValidationError(ERROR_MESSAGES.NO_DIFF_CODE)
       return
     }
@@ -83,7 +90,7 @@ export const App = () => {
     setValidationError(null)
     setIsExplainingDiff(true)
     const generator = explainDiffHeuristicallyStream(
-      previousCode,
+      savedCode,
       code,
       language,
       level,
@@ -114,7 +121,6 @@ export const App = () => {
       
       // 適切な要求の場合はコードを更新
       setCode(result.code)
-      setPreviousCode(code) // 現在のコードを以前のコードとして保存
     } catch (err) {
       setValidationError(handleAPIError(err))
     } finally {
@@ -131,11 +137,13 @@ export const App = () => {
         onLanguageChange={setLanguage}
         onExplain={handleExplain}
         onExplainDiff={handleExplainDiff}
-        canExplainDiff={!!previousCode && code !== previousCode}
+        onSaveCode={handleSaveCode}
+        canExplainDiff={!!savedCode && code !== savedCode}
         loading={loading}
         apiKey={apiKey}
         onApiKeyChange={updateAPIKey}
         code={code}
+        savedCode={savedCode}
         isExplaining={isExplaining}
         isExplainingDiff={isExplainingDiff}
       />
