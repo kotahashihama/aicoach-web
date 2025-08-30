@@ -2,6 +2,8 @@
 
 AI がコードの**解説・生成・修正**をサポートする Web アプリ。OpenAI API を使用してコードの理解と開発を支援します。
 
+**デモサイト**: https://aicoach-web-git-main-kotahashihamas-projects.vercel.app/
+
 ![ai-coach-demo](demo.png)
 
 ## 機能
