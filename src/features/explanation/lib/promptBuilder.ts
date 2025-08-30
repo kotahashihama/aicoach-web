@@ -83,7 +83,13 @@ export const buildCodePrompt = (
   const sections = PROMPT_SECTIONS[level]
   const langName = getLanguageDisplayName(lang)
 
-  let prompt = `以下の${langName}コードを解析して、以下の形式で解説してください：
+  let prompt = `以下の${langName}コードを解析して、以下の形式で解説してください。
+
+**文章作成時の重要な注意事項：**
+- 日本語と英語（単語・記号・数字）の間には必ず半角スペースを入れてください
+- 例：「JavaScript のコード」「API の使用」「React コンポーネント」「HTML 要素」
+
+解説形式：
 
 ${sections.summary.title}
 ${sections.summary.description}
@@ -130,6 +136,10 @@ export const buildDiffPrompt = (
         : '上級者'
 
   return `以下の${langName}コードの変更を${levelText}向けに解説してください。
+
+**文章作成時の重要な注意事項：**
+- 日本語と英語（単語・記号・数字）の間には必ず半角スペースを入れてください
+- 例：「JavaScript のコード」「API の使用」「React コンポーネント」「HTML 要素」
 
 ## 変更の概要
 何が追加/削除/変更されたか要約してください。

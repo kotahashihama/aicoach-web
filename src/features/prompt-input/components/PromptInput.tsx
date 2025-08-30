@@ -35,11 +35,11 @@ export const PromptInput = ({
 
   /**
    * キーボードイベントハンドラー
-   * Enterキーで送信、Shift+Enterで改行
+   * Enterキーで改行、Ctrl(Cmd)+Enterで送信
    * 日本語入力中（IME変換中）は送信しない
    */
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !isComposing) {
       e.preventDefault()
       handleSubmit()
     }
@@ -83,7 +83,7 @@ export const PromptInput = ({
           onKeyDown={handleKeyDown}
           onCompositionStart={() => setIsComposing(true)}
           onCompositionEnd={() => setIsComposing(false)}
-          placeholder={`${getLanguageDisplayName(language)} のコードを生成するプロンプトを入力...（Enter で送信、Shift+Enter で改行）`}
+          placeholder={`${getLanguageDisplayName(language)} のコードを生成するプロンプトを入力...（Enter で改行、Ctrl+Enter で送信）`}
           disabled={loading}
           rows={1}
         />
