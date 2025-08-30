@@ -32,7 +32,7 @@ export const generateCode = async (
 
   const langName = getLanguageDisplayName(language)
   const hasExistingCode = existingCode && existingCode.trim().length > 0
-  
+
   const systemPrompt = `あなたは${langName}のコード生成・変更アシスタントです。
 ユーザーの要求を分析し、適切なコード生成・変更の指示かどうかを判断してください。
 
@@ -90,11 +90,13 @@ ${prompt}`
               properties: {
                 isValidRequest: {
                   type: 'boolean',
-                  description: 'ユーザーの要求がコード生成・変更に関連する指示かどうか',
+                  description:
+                    'ユーザーの要求がコード生成・変更に関連する指示かどうか',
                 },
                 code: {
                   type: 'string',
-                  description: '生成または変更されたコードのみ（説明文やマークダウンは含めない）',
+                  description:
+                    '生成または変更されたコードのみ（説明文やマークダウンは含めない）',
                 },
                 reason: {
                   type: 'string',
@@ -130,7 +132,7 @@ ${prompt}`
     } catch (parseError) {
       console.error('Function arguments parsing error:', parseError)
       console.error('Arguments:', functionCall.arguments)
-      
+
       // パースエラーの場合は不適切な要求として扱う
       return {
         code: hasExistingCode ? existingCode || '' : '',

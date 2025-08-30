@@ -15,6 +15,13 @@ export type ExplainLevel = 'beginner' | 'intermediate' | 'advanced'
 export type ExplainTone = 'casual' | 'normal' | 'formal'
 
 /**
+ * テーマ
+ * - light: ライトモード
+ * - dark: ダークモード
+ */
+export type Theme = 'light' | 'dark'
+
+/**
  * サポートされているプログラミング言語
  */
 export type Language =
@@ -89,6 +96,8 @@ export interface ToolbarProps {
   onBaseVersionChange: (id: string) => void
   onHeadVersionChange: (id: string) => void
   onOpenSettings: () => void
+  theme: Theme
+  onThemeChange: (theme: Theme) => void
 }
 
 /**

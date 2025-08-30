@@ -275,6 +275,11 @@ export const settingsButton = style({
   minWidth: 'auto',
 })
 
+export const themeToggle = style({
+  padding: vars.spacing.sm,
+  minWidth: 'auto',
+})
+
 export const divider = style({
   width: '1px',
   height: '20px',

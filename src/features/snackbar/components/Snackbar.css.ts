@@ -70,7 +70,7 @@ export const closeButton = style({
   padding: vars.spacing.xs,
   opacity: 0.7,
   transition: `opacity ${vars.transition.fast}`,
-  
+
   ':hover': {
     opacity: 1,
   },

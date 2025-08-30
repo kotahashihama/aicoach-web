@@ -20,10 +20,10 @@ interface SnackbarProps {
 
 /**
  * スナックバーコンポーネント
- * 
+ *
  * 画面下部に一時的なメッセージを表示します。
  * 指定時間後に自動的に非表示になります。
- * 
+ *
  * @param props - コンポーネントのプロパティ
  * @returns スナックバーコンポーネント
  */
@@ -39,7 +39,7 @@ export const Snackbar = ({
       const timer = setTimeout(() => {
         onClose()
       }, duration)
-      
+
       return () => clearTimeout(timer)
     }
   }, [isOpen, duration, onClose])

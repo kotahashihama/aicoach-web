@@ -43,10 +43,18 @@ export const ApiKeyModal = ({
         <div className={styles.description}>
           <p>OpenAI API キーを入力してください。</p>
           <p className={styles.note}>
-            API キーは <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI Dashboard</a> から取得できます。
+            API キーは{' '}
+            <a
+              href="https://platform.openai.com/api-keys"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              OpenAI Dashboard
+            </a>{' '}
+            から取得できます。
           </p>
         </div>
-        
+
         <div className={styles.inputGroup}>
           <label htmlFor="api-key-input" className={styles.label}>
             API キー

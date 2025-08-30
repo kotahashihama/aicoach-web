@@ -23,7 +23,9 @@ export const useVersionControl = () => {
           savedAt: new Date(v.savedAt),
         }))
         setVersions(loadedVersions)
-        setNextVersionNumber(parsed.nextVersionNumber || loadedVersions.length + 1)
+        setNextVersionNumber(
+          parsed.nextVersionNumber || loadedVersions.length + 1,
+        )
       } catch (err) {
         console.error('Failed to load versions:', err)
       }
@@ -31,19 +33,22 @@ export const useVersionControl = () => {
   }, [])
 
   // sessionStorage に保存
-  const saveToStorage = useCallback((versions: CodeVersion[], nextNumber: number) => {
-    try {
-      sessionStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({
-          versions,
-          nextVersionNumber: nextNumber,
-        })
-      )
-    } catch (err) {
-      console.error('Failed to save versions:', err)
-    }
-  }, [])
+  const saveToStorage = useCallback(
+    (versions: CodeVersion[], nextNumber: number) => {
+      try {
+        sessionStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            versions,
+            nextVersionNumber: nextNumber,
+          }),
+        )
+      } catch (err) {
+        console.error('Failed to save versions:', err)
+      }
+    },
+    [],
+  )
 
   /**
    * 現在のコードを新しいバージョンとして保存
@@ -55,12 +60,12 @@ export const useVersionControl = () => {
       code: currentCode,
       savedAt: new Date(),
     }
-    
+
     const newVersions = [newVersion, ...versions]
     setVersions(newVersions)
     setNextVersionNumber(nextVersionNumber + 1)
     saveToStorage(newVersions, nextVersionNumber + 1)
-    
+
     return newVersion
   }, [currentCode, versions, nextVersionNumber, saveToStorage])
 
@@ -74,9 +79,10 @@ export const useVersionControl = () => {
   /**
    * 現在選択中のバージョンのコード
    */
-  const selectedVersionCode = selectedVersionId === '#現在' 
-    ? currentCode 
-    : versions.find(v => v.id === selectedVersionId)?.code || ''
+  const selectedVersionCode =
+    selectedVersionId === '#現在'
+      ? currentCode
+      : versions.find((v) => v.id === selectedVersionId)?.code || ''
 
   /**
    * すべてのバージョン（#現在を含む）

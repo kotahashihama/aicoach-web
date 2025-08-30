@@ -37,11 +37,7 @@ export const Button = ({
     .join(' ')
 
   return (
-    <button
-      className={buttonClass}
-      disabled={disabled || loading}
-      {...props}
-    >
+    <button className={buttonClass} disabled={disabled || loading} {...props}>
       {loading ? <span>処理中...</span> : children}
     </button>
   )

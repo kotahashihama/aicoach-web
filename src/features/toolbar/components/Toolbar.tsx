@@ -1,4 +1,9 @@
-import { ToolbarProps, ExplainLevel, ExplainTone, Language } from '../../../shared/types'
+import {
+  ToolbarProps,
+  ExplainLevel,
+  ExplainTone,
+  Language,
+} from '../../../shared/types'
 import { Button } from '../../../shared/components/Button'
 import { Select } from '../../../shared/components/Select'
 import * as styles from './Toolbar.css'
@@ -74,6 +79,8 @@ export const Toolbar = ({
   onBaseVersionChange,
   onHeadVersionChange,
   onOpenSettings,
+  theme,
+  onThemeChange,
 }: ToolbarProps) => {
   return (
     <div className={styles.toolbar}>
@@ -153,13 +160,19 @@ export const Toolbar = ({
         </div>
 
         <div className={styles.divider} />
-        
+
         <div className={styles.buttonsGroup}>
           <Button
             variant="secondary"
             onClick={onSaveCode}
             disabled={!code.trim() || code === savedCode}
-            title={!code.trim() ? 'コードを入力してください' : code === savedCode ? '変更がありません' : ''}
+            title={
+              !code.trim()
+                ? 'コードを入力してください'
+                : code === savedCode
+                  ? '変更がありません'
+                  : ''
+            }
           >
             保存
           </Button>
@@ -175,7 +188,7 @@ export const Toolbar = ({
           </Button>
 
           <div className={styles.divider} />
-          
+
           <div className={styles.diffControls}>
             <div className={styles.diffSelectors}>
               <div className={styles.diffSelector}>
@@ -188,8 +201,8 @@ export const Toolbar = ({
                   options={[
                     { value: '-', label: '-' },
                     ...versions
-                      .filter(v => v.number !== null)
-                      .map(v => ({ value: v.id, label: v.id }))
+                      .filter((v) => v.number !== null)
+                      .map((v) => ({ value: v.id, label: v.id })),
                   ]}
                 />
               </div>
@@ -201,9 +214,16 @@ export const Toolbar = ({
                   value={headVersionId}
                   onChange={(e) => onHeadVersionChange(e.target.value)}
                   disabled={loading}
-                  options={versions.map(v => {
-                    const baseVersion = baseVersionId === '-' ? null : versions.find(ver => ver.id === baseVersionId)
-                    const isDisabled = baseVersion && v.number !== null && baseVersion.number !== null && v.number < baseVersion.number
+                  options={versions.map((v) => {
+                    const baseVersion =
+                      baseVersionId === '-'
+                        ? null
+                        : versions.find((ver) => ver.id === baseVersionId)
+                    const isDisabled =
+                      baseVersion &&
+                      v.number !== null &&
+                      baseVersion.number !== null &&
+                      v.number < baseVersion.number
                     return {
                       value: v.id,
                       label: v.id,
@@ -218,7 +238,9 @@ export const Toolbar = ({
               onClick={onExplainDiff}
               loading={isExplainingDiff}
               disabled={!canExplainDiff || isExplaining}
-              title={!canExplainDiff ? '異なるバージョンを選択してください' : ''}
+              title={
+                !canExplainDiff ? '異なるバージョンを選択してください' : ''
+              }
             >
               変更差分を解説
             </Button>
@@ -227,6 +249,16 @@ export const Toolbar = ({
       </div>
 
       <div className={styles.toolbarRight}>
+        <Button
+          variant="ghost"
+          onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
+          aria-label={`${theme === 'dark' ? 'ライト' : 'ダーク'}モードに切り替え`}
+          className={styles.themeToggle}
+        >
+          <span className="material-icons">
+            {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+          </span>
+        </Button>
         <Button
           variant="ghost"
           onClick={onOpenSettings}

@@ -32,7 +32,8 @@ export const StreamingExplanation = ({
           components={{
             code({ className, children, ...props }: any) {
               const match = /language-(\w+)/.exec(className || '')
-              const isBlock = props['data-code-block'] || className?.includes('language-')
+              const isBlock =
+                props['data-code-block'] || className?.includes('language-')
               return isBlock && match ? (
                 <SyntaxHighlighter
                   language={match[1]}

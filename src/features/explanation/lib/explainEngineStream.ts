@@ -65,7 +65,13 @@ export const explainDiffHeuristicallyStream = async function* (
   const maskedAfter = maskSensitiveData(after)
   const truncatedBefore = truncateCode(maskedBefore)
   const truncatedAfter = truncateCode(maskedAfter)
-  const prompt = buildDiffPrompt(truncatedBefore, truncatedAfter, lang, level, tone)
+  const prompt = buildDiffPrompt(
+    truncatedBefore,
+    truncatedAfter,
+    lang,
+    level,
+    tone,
+  )
 
   const reader = await createOpenAIStream({ apiKey, prompt })
   const generator = processStream(reader)
@@ -101,10 +107,7 @@ const parseMarkdownToExplanation = (markdown: string): Explanation => {
 
     if (title.includes('概要') || title.includes('変更')) {
       summary = content
-    } else if (
-      title.includes('動作') ||
-      title.includes('仕組み')
-    ) {
+    } else if (title.includes('動作') || title.includes('仕組み')) {
       howItWorks = extractBulletPoints(content)
     } else if (
       title.includes('技術') ||
@@ -126,10 +129,7 @@ const parseMarkdownToExplanation = (markdown: string): Explanation => {
     ) {
       const points = extractBulletPoints(content)
       if (points.length > 0) tips = points
-    } else if (
-      title.includes('参考') ||
-      title.includes('リンク')
-    ) {
+    } else if (title.includes('参考') || title.includes('リンク')) {
       const links = extractBulletPoints(content)
       if (links.length > 0) relatedLinks = links
     }

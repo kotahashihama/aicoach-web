@@ -11,7 +11,7 @@ interface SnackbarState {
 
 /**
  * スナックバー管理用のカスタムフック
- * 
+ *
  * @returns スナックバーの状態と操作関数
  */
 export const useSnackbar = () => {
@@ -24,19 +24,22 @@ export const useSnackbar = () => {
   /**
    * スナックバーを表示
    */
-  const showSnackbar = useCallback((message: string, type: SnackbarState['type'] = 'info') => {
-    setState({
-      message,
-      type,
-      isOpen: true,
-    })
-  }, [])
+  const showSnackbar = useCallback(
+    (message: string, type: SnackbarState['type'] = 'info') => {
+      setState({
+        message,
+        type,
+        isOpen: true,
+      })
+    },
+    [],
+  )
 
   /**
    * スナックバーを閉じる
    */
   const closeSnackbar = useCallback(() => {
-    setState(prev => ({ ...prev, isOpen: false }))
+    setState((prev) => ({ ...prev, isOpen: false }))
   }, [])
 
   return {

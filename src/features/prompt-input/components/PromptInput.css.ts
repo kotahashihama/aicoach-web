@@ -33,17 +33,17 @@ export const promptTextarea = style({
   maxHeight: '100px',
   lineHeight: 1.5,
   transition: 'border-color 0.2s ease',
-  
+
   ':focus': {
     outline: 'none',
     borderColor: vars.color.brand.primary,
   },
-  
+
   ':disabled': {
     opacity: 0.6,
     cursor: 'not-allowed',
   },
-  
+
   '::placeholder': {
     color: vars.color.text.tertiary,
   },
@@ -61,11 +61,11 @@ export const generateButton = style({
   transition: 'all 0.2s ease',
   whiteSpace: 'nowrap',
   height: '32px',
-  
+
   ':hover': {
     opacity: 0.9,
   },
-  
+
   ':disabled': {
     opacity: 0.5,
     cursor: 'not-allowed',

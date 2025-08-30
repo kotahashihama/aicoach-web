@@ -1,6 +1,6 @@
 import Editor from '@monaco-editor/react'
 import type { OnMount } from '@monaco-editor/react'
-import { Language } from '../../../shared/types'
+import { Language, Theme } from '../../../shared/types'
 import * as styles from './CodeEditor.css'
 
 /**
@@ -17,6 +17,8 @@ interface CodeEditorProps {
   onMount?: OnMount
   /** エディタを無効化するかどうか */
   disabled?: boolean
+  /** 現在のテーマ */
+  theme: Theme
 }
 
 /**
@@ -34,9 +36,12 @@ export const CodeEditor = ({
   onChange,
   onMount,
   disabled = false,
+  theme,
 }: CodeEditorProps) => {
   return (
-    <div className={`${styles.editorPanel} ${disabled ? styles.editorPanelDisabled : ''}`}>
+    <div
+      className={`${styles.editorPanel} ${disabled ? styles.editorPanelDisabled : ''}`}
+    >
       <Editor
         height="100%"
         language={language}
@@ -62,7 +67,7 @@ export const CodeEditor = ({
           formatOnType: true,
           readOnly: disabled,
         }}
-        theme="vs-dark"
+        theme={theme === 'dark' ? 'vs-dark' : 'light'}
       />
     </div>
   )

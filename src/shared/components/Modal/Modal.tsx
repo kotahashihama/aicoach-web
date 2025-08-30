@@ -49,6 +49,6 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
         <div className={styles.content}>{children}</div>
       </div>
     </div>,
-    document.body
+    document.body,
   )
 }

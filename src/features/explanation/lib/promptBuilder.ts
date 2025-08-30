@@ -17,15 +17,18 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
     },
     keyTechniques: {
       title: '## 使われている技術',
-      description: 'コードで使われている主要な機能、メソッド、パターンを箇条書きで説明してください。',
+      description:
+        'コードで使われている主要な機能、メソッド、パターンを箇条書きで説明してください。',
     },
     watchOut: {
       title: '## 注意点',
-      description: 'このコードを使う時に注意すべき点や、よくあるミスを箇条書きで説明してください。',
+      description:
+        'このコードを使う時に注意すべき点や、よくあるミスを箇条書きで説明してください。',
     },
     tips: {
       title: '## ヒント',
-      description: 'このコードをより良く使うための実用的なアドバイスがあれば箇条書きで紹介してください。',
+      description:
+        'このコードをより良く使うための実用的なアドバイスがあれば箇条書きで紹介してください。',
     },
   },
   intermediate: {
@@ -40,19 +43,23 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
     },
     keyTechniques: {
       title: '## 使われている技術',
-      description: '設計パターン、フレームワークの機能、ベストプラクティスを箇条書きで説明してください。',
+      description:
+        '設計パターン、フレームワークの機能、ベストプラクティスを箇条書きで説明してください。',
     },
     watchOut: {
       title: '## 注意点',
-      description: 'パフォーマンス上の懸念、エッジケース、メンテナンス時の課題を箇条書きで説明してください。',
+      description:
+        'パフォーマンス上の懸念、エッジケース、メンテナンス時の課題を箇条書きで説明してください。',
     },
     tips: {
       title: '## 実装のコツ',
-      description: 'より効率的な実装方法、リファクタリングのポイントがあれば箇条書きで紹介してください。',
+      description:
+        'より効率的な実装方法、リファクタリングのポイントがあれば箇条書きで紹介してください。',
     },
     relatedLinks: {
       title: '## 参考リンク',
-      description: '公式ドキュメントや関連記事があれば箇条書きで紹介してください。',
+      description:
+        '公式ドキュメントや関連記事があれば箇条書きで紹介してください。',
     },
   },
   advanced: {
@@ -68,15 +75,18 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
     },
     keyTechniques: {
       title: '## 技術的な選択',
-      description: 'アルゴリズムの選定理由、トレードオフ、最適化手法、システム設計の原則を箇条書きで説明してください。',
+      description:
+        'アルゴリズムの選定理由、トレードオフ、最適化手法、システム設計の原則を箇条書きで説明してください。',
     },
     watchOut: {
       title: '## 潜在的な問題',
-      description: 'スケーラビリティ、セキュリティ、競合状態、メモリリークなどの深刻な問題を箇条書きで説明してください。',
+      description:
+        'スケーラビリティ、セキュリティ、競合状態、メモリリークなどの深刻な問題を箇条書きで説明してください。',
     },
     tips: {
       title: '## 最適化のアプローチ',
-      description: 'プロファイリング結果に基づく最適化、代替アルゴリズムがあれば箇条書きで紹介してください。',
+      description:
+        'プロファイリング結果に基づく最適化、代替アルゴリズムがあれば箇条書きで紹介してください。',
     },
   },
 }
@@ -85,9 +95,12 @@ const PROMPT_SECTIONS: Record<ExplainLevel, Record<string, PromptSection>> = {
  * トーンごとの口調設定
  */
 const TONE_SETTINGS: Record<ExplainTone, string> = {
-  casual: 'カジュアルな口調で、友人に話すように解説してください。「〜だね」「〜だよ」などを使ってください。',
-  normal: '標準的な口調で解説してください。「〜です」「〜ます」を使ってください。',
-  formal: 'フォーマルで丁寧な口調で解説してください。「〜でございます」「〜いたします」を使ってください。',
+  casual:
+    'カジュアルな口調で、友人に話すように解説してください。「〜だね」「〜だよ」などを使ってください。',
+  normal:
+    '標準的な口調で解説してください。「〜です」「〜ます」を使ってください。',
+  formal:
+    'フォーマルで丁寧な口調で解説してください。「〜でございます」「〜いたします」を使ってください。',
 }
 
 /**
@@ -135,7 +148,7 @@ ${sections.watchOut.description}`
   if (sections.tips) {
     prompt += `\n\n${sections.tips.title}\n${sections.tips.description}`
   }
-  
+
   if (sections.relatedLinks) {
     prompt += `\n\n${sections.relatedLinks.title}\n${sections.relatedLinks.description}`
   }
