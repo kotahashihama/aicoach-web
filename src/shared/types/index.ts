@@ -75,8 +75,6 @@ export interface ToolbarProps {
   onSaveCode: () => void
   canExplainDiff: boolean
   loading: boolean
-  apiKey: string
-  onApiKeyChange: (key: string) => void
   code: string
   savedCode: string
   isExplaining: boolean
@@ -86,6 +84,7 @@ export interface ToolbarProps {
   headVersionId: string
   onBaseVersionChange: (id: string) => void
   onHeadVersionChange: (id: string) => void
+  onOpenSettings: () => void
 }
 
 /**

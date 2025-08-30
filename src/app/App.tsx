@@ -10,7 +10,7 @@ import {
 import { CodeEditor } from '../features/code-editor'
 import { PromptInput } from '../features/prompt-input'
 import { generateCode } from '../features/code-generation'
-import { useAPIKey } from '../features/api-key'
+import { useAPIKey, ApiKeyModal } from '../features/api-key'
 import { Snackbar, useSnackbar } from '../features/snackbar'
 import { VersionSidebar, useVersionControl } from '../features/version-control'
 import { ExplainLevel, ExplainTone, Language, MonacoEditorInstance } from '../shared/types'
@@ -31,6 +31,7 @@ export const App = () => {
   const [isExplainingDiff, setIsExplainingDiff] = useState(false)
   const [baseVersionId, setBaseVersionId] = useState<string>('-')
   const [headVersionId, setHeadVersionId] = useState<string>('#現在')
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const { apiKey, updateAPIKey } = useAPIKey()
   const {
     versions,
@@ -191,8 +192,6 @@ export const App = () => {
           onSaveCode={handleSaveCode}
           canExplainDiff={canExplainDiff}
           loading={loading}
-          apiKey={apiKey}
-          onApiKeyChange={updateAPIKey}
           code={currentCode}
           savedCode={''}
           isExplaining={isExplaining}
@@ -202,6 +201,7 @@ export const App = () => {
           headVersionId={headVersionId}
           onBaseVersionChange={setBaseVersionId}
           onHeadVersionChange={setHeadVersionId}
+          onOpenSettings={() => setIsSettingsOpen(true)}
         />
 
         <PromptInput
@@ -237,6 +237,13 @@ export const App = () => {
         type={snackbar.type}
         isOpen={snackbar.isOpen}
         onClose={snackbar.closeSnackbar}
+      />
+      
+      <ApiKeyModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        apiKey={apiKey}
+        onApiKeyChange={updateAPIKey}
       />
     </div>
   )

@@ -258,3 +258,8 @@ export const diffArrow = style({
   color: vars.color.text.tertiary,
   fontSize: vars.fontSize.sm,
 })
+
+export const settingsButton = style({
+  padding: vars.spacing.sm,
+  minWidth: 'auto',
+})

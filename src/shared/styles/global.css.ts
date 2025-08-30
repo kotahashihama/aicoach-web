@@ -19,3 +19,13 @@ globalStyle('#root', {
   height: '100vh',
   overflow: 'hidden',
 })
+
+globalStyle('a', {
+  color: vars.color.brand.primary,
+  textDecoration: 'none',
+})
+
+globalStyle('a:hover', {
+  color: vars.color.brand.primaryHover,
+  textDecoration: 'underline',
+})

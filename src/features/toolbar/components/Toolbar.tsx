@@ -64,8 +64,6 @@ export const Toolbar = ({
   onSaveCode,
   canExplainDiff,
   loading,
-  apiKey,
-  onApiKeyChange,
   code,
   savedCode,
   isExplaining,
@@ -75,6 +73,7 @@ export const Toolbar = ({
   headVersionId,
   onBaseVersionChange,
   onHeadVersionChange,
+  onOpenSettings,
 }: ToolbarProps) => {
   return (
     <div className={styles.toolbar}>
@@ -224,20 +223,14 @@ export const Toolbar = ({
       </div>
 
       <div className={styles.toolbarRight}>
-        <div className={styles.apiKeyInput}>
-          <label htmlFor="api-key" className={styles.apiKeyLabel}>
-            OpenAI API キー
-          </label>
-          <input
-            id="api-key"
-            className={styles.apiKeyInputField}
-            type="password"
-            placeholder="sk-..."
-            value={apiKey}
-            onChange={(e) => onApiKeyChange(e.target.value)}
-            disabled={loading}
-          />
-        </div>
+        <Button
+          variant="ghost"
+          onClick={onOpenSettings}
+          aria-label="設定"
+          className={styles.settingsButton}
+        >
+          <span className="material-icons">settings</span>
+        </Button>
       </div>
     </div>
   )
