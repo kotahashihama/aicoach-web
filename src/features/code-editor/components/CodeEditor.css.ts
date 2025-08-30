@@ -20,6 +20,6 @@ export const editorPanel = style({
 })
 
 export const editorPanelDisabled = style({
-  opacity: 0.7,
+  opacity: 0.5,
   pointerEvents: 'none',
 })
