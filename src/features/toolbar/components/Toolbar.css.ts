@@ -5,7 +5,7 @@ import { media } from '../../../shared/styles/responsive'
 export const toolbar = style({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   padding: `${vars.spacing.md} ${vars.spacing.xl}`,
   backgroundColor: vars.color.background.tertiary,
   borderBottom: `1px solid ${vars.color.border.primary}`,
@@ -16,9 +16,11 @@ export const toolbar = style({
     [media.wide]: {
       flexWrap: 'wrap',
       padding: vars.spacing.md,
+      gap: vars.spacing.md,
     },
     [media.tablet]: {
       gap: vars.spacing.md,
+      padding: vars.spacing.sm,
     },
   },
 })
@@ -26,13 +28,14 @@ export const toolbar = style({
 export const toolbarLeft = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.lg,
+  gap: vars.spacing.md,
   flexWrap: 'wrap',
   flex: 1,
   '@media': {
     [media.wide]: {
       width: '100%',
       justifyContent: 'flex-start',
+      gap: vars.spacing.md,
     },
     [media.tablet]: {
       flexDirection: 'column',
@@ -50,7 +53,7 @@ export const toolbarRight = style({
   '@media': {
     [media.wide]: {
       width: '100%',
-      marginTop: vars.spacing.sm,
+      marginTop: 0,
     },
   },
 })
@@ -78,10 +81,15 @@ export const selectorsGroup = style({
 export const buttonsGroup = style({
   display: 'flex',
   alignItems: 'center',
-  gap: vars.spacing.sm,
+  gap: vars.spacing.md,
+  flexWrap: 'wrap',
   '@media': {
     [media.desktop]: {
-      gap: '6px',
+      gap: vars.spacing.sm,
+    },
+    [media.tablet]: {
+      width: '100%',
+      gap: vars.spacing.md,
     },
   },
 })
@@ -107,27 +115,7 @@ export const selectorLabel = style({
   whiteSpace: 'nowrap',
 })
 
-export const select = style({
-  padding: `6px ${vars.spacing.md}`,
-  backgroundColor: vars.color.background.quaternary,
-  color: vars.color.text.secondary,
-  border: `1px solid ${vars.color.border.secondary}`,
-  borderRadius: vars.borderRadius.sm,
-  fontSize: vars.fontSize.sm,
-  cursor: 'pointer',
-  ':hover': {
-    backgroundColor: vars.color.border.secondary,
-  },
-  ':disabled': {
-    opacity: 0.5,
-    cursor: 'not-allowed',
-  },
-  '@media': {
-    [media.mobile]: {
-      width: '100%',
-    },
-  },
-})
+// 削除（Select コンポーネントを使用）
 
 const buttonBase = style({
   padding: `6px ${vars.spacing.lg}`,
@@ -184,7 +172,7 @@ export const apiKeyInput = style({
     [media.wide]: {
       width: '100%',
     },
-    [media.mobile]: {
+    [media.tablet]: {
       flexDirection: 'column',
       alignItems: 'stretch',
       gap: vars.spacing.xs,
@@ -225,4 +213,48 @@ export const apiKeyInputField = style({
       fontSize: vars.fontSize.xs,
     },
   },
+})
+
+// 差分解説コントロール
+export const diffControls = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: vars.spacing.md,
+  flexShrink: 0,
+  '@media': {
+    [media.tablet]: {
+      width: '100%',
+    },
+  },
+})
+
+export const diffSelectors = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: vars.spacing.sm,
+  flexShrink: 0,
+  '@media': {
+    [media.mobile]: {
+      width: '100%',
+      justifyContent: 'space-between',
+    },
+  },
+})
+
+export const diffSelector = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: vars.spacing.xs,
+})
+
+export const diffLabel = style({
+  fontSize: vars.fontSize.sm,
+  color: vars.color.text.secondary,
+})
+
+// 削除（Select コンポーネントを使用）
+
+export const diffArrow = style({
+  color: vars.color.text.tertiary,
+  fontSize: vars.fontSize.sm,
 })

@@ -61,5 +61,6 @@ export const vars = createGlobalTheme(':root', {
   },
   transition: {
     fast: '0.2s',
+    normal: '0.3s',
   },
 })

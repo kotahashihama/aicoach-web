@@ -1,5 +1,6 @@
 import { ToolbarProps, ExplainLevel, ExplainTone, Language } from '../../../shared/types'
 import { Button } from '../../../shared/components/Button'
+import { Select } from '../../../shared/components/Select'
 import * as styles from './Toolbar.css'
 
 /**
@@ -69,6 +70,11 @@ export const Toolbar = ({
   savedCode,
   isExplaining,
   isExplainingDiff,
+  versions,
+  baseVersionId,
+  headVersionId,
+  onBaseVersionChange,
+  onHeadVersionChange,
 }: ToolbarProps) => {
   return (
     <div className={styles.toolbar}>
@@ -78,9 +84,8 @@ export const Toolbar = ({
             <label htmlFor="language" className={styles.selectorLabel}>
               言語
             </label>
-            <select
+            <Select
               id="language"
-              className={styles.select}
               value={language}
               onChange={(e) => {
                 const value = e.target.value
@@ -89,26 +94,26 @@ export const Toolbar = ({
                 }
               }}
               disabled={loading}
-            >
-              <option value="typescript">TypeScript</option>
-              <option value="typescriptreact">TypeScript JSX</option>
-              <option value="javascript">JavaScript</option>
-              <option value="javascriptreact">JavaScript JSX</option>
-              <option value="python">Python</option>
-              <option value="go">Go</option>
-              <option value="ruby">Ruby</option>
-              <option value="php">PHP</option>
-              <option value="vue">Vue.js</option>
-            </select>
+              options={[
+                { value: 'typescript', label: 'TypeScript' },
+                { value: 'typescriptreact', label: 'TypeScript JSX' },
+                { value: 'javascript', label: 'JavaScript' },
+                { value: 'javascriptreact', label: 'JavaScript JSX' },
+                { value: 'python', label: 'Python' },
+                { value: 'go', label: 'Go' },
+                { value: 'ruby', label: 'Ruby' },
+                { value: 'php', label: 'PHP' },
+                { value: 'vue', label: 'Vue.js' },
+              ]}
+            />
           </div>
 
           <div className={styles.levelSelector}>
             <label htmlFor="level" className={styles.selectorLabel}>
               解説レベル
             </label>
-            <select
+            <Select
               id="level"
-              className={styles.select}
               value={level}
               onChange={(e) => {
                 const value = e.target.value
@@ -117,20 +122,20 @@ export const Toolbar = ({
                 }
               }}
               disabled={loading}
-            >
-              <option value="beginner">初心者</option>
-              <option value="intermediate">中級者</option>
-              <option value="advanced">上級者</option>
-            </select>
+              options={[
+                { value: 'beginner', label: '初心者' },
+                { value: 'intermediate', label: '中級者' },
+                { value: 'advanced', label: '上級者' },
+              ]}
+            />
           </div>
 
           <div className={styles.toneSelector}>
             <label htmlFor="tone" className={styles.selectorLabel}>
               トーン
             </label>
-            <select
+            <Select
               id="tone"
-              className={styles.select}
               value={tone}
               onChange={(e) => {
                 const value = e.target.value
@@ -139,11 +144,12 @@ export const Toolbar = ({
                 }
               }}
               disabled={loading}
-            >
-              <option value="casual">カジュアル</option>
-              <option value="normal">通常</option>
-              <option value="formal">フォーマル</option>
-            </select>
+              options={[
+                { value: 'casual', label: 'カジュアル' },
+                { value: 'normal', label: '通常' },
+                { value: 'formal', label: 'フォーマル' },
+              ]}
+            />
           </div>
         </div>
 
@@ -167,15 +173,53 @@ export const Toolbar = ({
             このコードを解説
           </Button>
 
-          <Button
-            variant="primary"
-            onClick={onExplainDiff}
-            loading={isExplainingDiff}
-            disabled={!code.trim() || !canExplainDiff || isExplaining}
-            title={!code.trim() ? 'コードを入力してください' : !canExplainDiff ? 'コードを保存してから変更してください' : ''}
-          >
-            変更差分を解説
-          </Button>
+          <div className={styles.diffControls}>
+            <div className={styles.diffSelectors}>
+              <div className={styles.diffSelector}>
+                <label className={styles.diffLabel}>base:</label>
+                <Select
+                  variant="compact"
+                  value={baseVersionId}
+                  onChange={(e) => onBaseVersionChange(e.target.value)}
+                  disabled={loading}
+                  options={[
+                    { value: '-', label: '-' },
+                    ...versions
+                      .filter(v => v.number !== null)
+                      .map(v => ({ value: v.id, label: v.id }))
+                  ]}
+                />
+              </div>
+              <span className={styles.diffArrow}>→</span>
+              <div className={styles.diffSelector}>
+                <label className={styles.diffLabel}>head:</label>
+                <Select
+                  variant="compact"
+                  value={headVersionId}
+                  onChange={(e) => onHeadVersionChange(e.target.value)}
+                  disabled={loading}
+                  options={versions.map(v => {
+                    const baseVersion = baseVersionId === '-' ? null : versions.find(ver => ver.id === baseVersionId)
+                    const isDisabled = baseVersion && v.number !== null && baseVersion.number !== null && v.number < baseVersion.number
+                    return {
+                      value: v.id,
+                      label: v.id,
+                      disabled: isDisabled || false,
+                    }
+                  })}
+                />
+              </div>
+            </div>
+            <Button
+              variant="primary"
+              onClick={onExplainDiff}
+              loading={isExplainingDiff}
+              disabled={!canExplainDiff || isExplaining}
+              title={!canExplainDiff ? '異なるバージョンを選択してください' : ''}
+            >
+              変更差分を解説
+            </Button>
+          </div>
         </div>
       </div>
 

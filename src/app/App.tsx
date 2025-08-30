@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { OnMount } from '@monaco-editor/react'
 import { Toolbar } from '../features/toolbar'
 import {
@@ -12,6 +12,7 @@ import { PromptInput } from '../features/prompt-input'
 import { generateCode } from '../features/code-generation'
 import { useAPIKey } from '../features/api-key'
 import { Snackbar, useSnackbar } from '../features/snackbar'
+import { VersionSidebar, useVersionControl } from '../features/version-control'
 import { ExplainLevel, ExplainTone, Language, MonacoEditorInstance } from '../shared/types'
 import { ERROR_MESSAGES } from '../shared/constants'
 import { handleAPIError } from '../shared/lib/errorHandling'
@@ -22,15 +23,24 @@ import * as styles from './App.css'
  * コードエディタ、ツールバー、解説パネルを統合して提供します
  */
 export const App = () => {
-  const [code, setCode] = useState('')
-  const [savedCode, setSavedCode] = useState('')
   const [level, setLevel] = useState<ExplainLevel>('beginner')
   const [tone, setTone] = useState<ExplainTone>('normal')
   const [language, setLanguage] = useState<Language>('typescript')
   const [codeGenerating, setCodeGenerating] = useState(false)
   const [isExplaining, setIsExplaining] = useState(false)
   const [isExplainingDiff, setIsExplainingDiff] = useState(false)
+  const [baseVersionId, setBaseVersionId] = useState<string>('-')
+  const [headVersionId, setHeadVersionId] = useState<string>('#現在')
   const { apiKey, updateAPIKey } = useAPIKey()
+  const {
+    versions,
+    currentCode,
+    setCurrentCode,
+    selectedVersionId,
+    selectedVersionCode,
+    selectVersion,
+    saveCurrentVersion,
+  } = useVersionControl()
   const {
     explanation,
     streamingContent,
@@ -46,6 +56,21 @@ export const App = () => {
 
   const error = streamError || validationError
 
+  // 最新の保存されたバージョンを取得
+  const latestSavedVersion = versions.find(v => v.number !== null)
+  
+  // baseが未設定の場合は最新の保存バージョンを設定
+  useEffect(() => {
+    if (baseVersionId === '-' && latestSavedVersion) {
+      setBaseVersionId(latestSavedVersion.id)
+    }
+  }, [baseVersionId, latestSavedVersion])
+
+  // 選択されたバージョンが変更されたら解説をクリア
+  useEffect(() => {
+    // 解説をクリアするロジックを追加
+  }, [selectedVersionId])
+
   /**
    * エディタのマウント時に呼ばれるハンドラ
    * エディタインスタンスを保持しますが、現在は未使用
@@ -59,14 +84,15 @@ export const App = () => {
    * コードの解説を実行します
    */
   const handleExplain = async () => {
-    if (!code.trim()) {
+    const codeToExplain = selectedVersionId === '#現在' ? currentCode : selectedVersionCode
+    if (!codeToExplain.trim()) {
       setValidationError(ERROR_MESSAGES.NO_CODE)
       return
     }
 
     setValidationError(null)
     setIsExplaining(true)
-    const generator = explainHeuristicallyStream(code, language, level, tone, apiKey)
+    const generator = explainHeuristicallyStream(codeToExplain, language, level, tone, apiKey)
     await executeStream(generator)
     setIsExplaining(false)
   }
@@ -75,15 +101,26 @@ export const App = () => {
    * 現在のコードを保存します
    */
   const handleSaveCode = () => {
-    setSavedCode(code)
-    snackbar.showSnackbar('コードを保存しました', 'success')
+    const savedVersion = saveCurrentVersion()
+    setBaseVersionId(savedVersion.id)
+    snackbar.showSnackbar(`${savedVersion.id} として保存しました`, 'success')
   }
 
   /**
    * コードの差分解説を実行します
    */
   const handleExplainDiff = async () => {
-    if (!code.trim() || !savedCode.trim()) {
+    if (baseVersionId === '-') {
+      setValidationError('基準となるバージョンを選択してください')
+      return
+    }
+
+    const baseCode = versions.find(v => v.id === baseVersionId)?.code || ''
+    const headCode = headVersionId === '#現在' 
+      ? currentCode 
+      : versions.find(v => v.id === headVersionId)?.code || ''
+
+    if (!baseCode.trim() || !headCode.trim()) {
       setValidationError(ERROR_MESSAGES.NO_DIFF_CODE)
       return
     }
@@ -91,8 +128,8 @@ export const App = () => {
     setValidationError(null)
     setIsExplainingDiff(true)
     const generator = explainDiffHeuristicallyStream(
-      savedCode,
-      code,
+      baseCode,
+      headCode,
       language,
       level,
       tone,
@@ -112,7 +149,7 @@ export const App = () => {
     setValidationError(null)
     
     try {
-      const result = await generateCode(prompt, language, apiKey, code)
+      const result = await generateCode(prompt, language, apiKey, currentCode)
       
       // 不適切な要求の場合
       if (!result.isValidRequest) {
@@ -122,7 +159,7 @@ export const App = () => {
       }
       
       // 適切な要求の場合はコードを更新
-      setCode(result.code)
+      setCurrentCode(result.code)
     } catch (err) {
       setValidationError(handleAPIError(err))
     } finally {
@@ -130,53 +167,69 @@ export const App = () => {
     }
   }
 
+  // 差分解説が可能かどうか
+  const canExplainDiff = baseVersionId !== '-' && !!headVersionId && baseVersionId !== headVersionId
+
   return (
     <div className={styles.app}>
-      <Toolbar
-        level={level}
-        onLevelChange={setLevel}
-        tone={tone}
-        onToneChange={setTone}
-        language={language}
-        onLanguageChange={setLanguage}
-        onExplain={handleExplain}
-        onExplainDiff={handleExplainDiff}
-        onSaveCode={handleSaveCode}
-        canExplainDiff={!!savedCode && code !== savedCode}
-        loading={loading}
-        apiKey={apiKey}
-        onApiKeyChange={updateAPIKey}
-        code={code}
-        savedCode={savedCode}
-        isExplaining={isExplaining}
-        isExplainingDiff={isExplainingDiff}
+      <VersionSidebar
+        versions={versions}
+        selectedVersionId={selectedVersionId}
+        onSelectVersion={selectVersion}
       />
+      
+      <div className={styles.contentArea}>
+        <Toolbar
+          level={level}
+          onLevelChange={setLevel}
+          tone={tone}
+          onToneChange={setTone}
+          language={language}
+          onLanguageChange={setLanguage}
+          onExplain={handleExplain}
+          onExplainDiff={handleExplainDiff}
+          onSaveCode={handleSaveCode}
+          canExplainDiff={canExplainDiff}
+          loading={loading}
+          apiKey={apiKey}
+          onApiKeyChange={updateAPIKey}
+          code={currentCode}
+          savedCode={''}
+          isExplaining={isExplaining}
+          isExplainingDiff={isExplainingDiff}
+          versions={versions}
+          baseVersionId={baseVersionId}
+          headVersionId={headVersionId}
+          onBaseVersionChange={setBaseVersionId}
+          onHeadVersionChange={setHeadVersionId}
+        />
 
-      <PromptInput
-        language={language}
-        loading={codeGenerating}
-        onGenerateCode={handleGenerateCode}
-      />
+        <PromptInput
+          language={language}
+          loading={codeGenerating}
+          onGenerateCode={handleGenerateCode}
+        />
 
-      <div className={styles.mainContent}>
-        <div className={styles.leftColumn}>
-          <CodeEditor
-            code={code}
-            language={language}
-            onChange={setCode}
-            onMount={handleEditorDidMount}
-            disabled={codeGenerating}
+        <div className={styles.mainContent}>
+          <div className={styles.leftColumn}>
+            <CodeEditor
+              code={selectedVersionCode}
+              language={language}
+              onChange={setCurrentCode}
+              onMount={handleEditorDidMount}
+              disabled={codeGenerating || selectedVersionId !== '#現在'}
+            />
+          </div>
+
+          <ExplanationPanel
+            error={error}
+            loading={loading}
+            streamingContent={streamingContent}
+            explanation={explanation}
+            isStreaming={isStreaming}
+            level={level}
           />
         </div>
-
-        <ExplanationPanel
-          error={error}
-          loading={loading}
-          streamingContent={streamingContent}
-          explanation={explanation}
-          isStreaming={isStreaming}
-          level={level}
-        />
       </div>
       
       <Snackbar

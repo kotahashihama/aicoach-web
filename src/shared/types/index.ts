@@ -42,6 +42,20 @@ export interface Explanation {
   alternative?: string
 }
 
+/**
+ * コードバージョン
+ */
+export interface CodeVersion {
+  /** バージョンID（#1, #2, ... または #現在） */
+  id: string
+  /** バージョン番号（#現在の場合はnull） */
+  number: number | null
+  /** コード内容 */
+  code: string
+  /** 保存日時 */
+  savedAt: Date
+}
+
 /* ===========================
  * Component Props
  * =========================== */
@@ -67,6 +81,11 @@ export interface ToolbarProps {
   savedCode: string
   isExplaining: boolean
   isExplainingDiff: boolean
+  versions: CodeVersion[]
+  baseVersionId: string
+  headVersionId: string
+  onBaseVersionChange: (id: string) => void
+  onHeadVersionChange: (id: string) => void
 }
 
 /**

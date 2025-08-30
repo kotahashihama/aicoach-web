@@ -11,6 +11,7 @@ export const button = style({
   cursor: 'pointer',
   transition: `all ${vars.transition.fast}`,
   fontFamily: 'inherit',
+  whiteSpace: 'nowrap',
   ':disabled': {
     opacity: 0.5,
     cursor: 'not-allowed',
