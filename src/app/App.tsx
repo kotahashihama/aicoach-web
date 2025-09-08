@@ -15,12 +15,7 @@ import { Snackbar, useSnackbar } from '../features/snackbar'
 import { VersionSidebar, useVersionControl } from '../features/version-control'
 import { useTheme } from '../features/theme'
 import { useResizable } from '../shared/hooks/useResizable'
-import {
-  ExplainLevel,
-  ExplainTone,
-  Language,
-  MonacoEditorInstance,
-} from '../shared/types'
+import { ExplainLevel, Language, MonacoEditorInstance } from '../shared/types'
 import { ERROR_MESSAGES } from '../shared/constants'
 import { handleAPIError } from '../shared/lib/errorHandling'
 import * as styles from './App.css'
@@ -31,7 +26,6 @@ import * as styles from './App.css'
  */
 export const App = () => {
   const [level, setLevel] = useState<ExplainLevel>('beginner')
-  const [tone, setTone] = useState<ExplainTone>('normal')
   const [language, setLanguage] = useState<Language>('typescript')
   const [codeGenerating, setCodeGenerating] = useState(false)
   const [isExplaining, setIsExplaining] = useState(false)
@@ -112,7 +106,6 @@ export const App = () => {
       codeToExplain,
       language,
       level,
-      tone,
       apiKey,
     )
     await executeStream(generator)
@@ -155,7 +148,6 @@ export const App = () => {
       headCode,
       language,
       level,
-      tone,
       apiKey,
     )
     await executeStream(generator)
@@ -209,8 +201,6 @@ export const App = () => {
         <Toolbar
           level={level}
           onLevelChange={setLevel}
-          tone={tone}
-          onToneChange={setTone}
           language={language}
           onLanguageChange={setLanguage}
           onExplain={handleExplain}

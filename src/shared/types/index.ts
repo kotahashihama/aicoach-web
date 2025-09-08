@@ -7,14 +7,6 @@
 export type ExplainLevel = 'beginner' | 'intermediate' | 'advanced'
 
 /**
- * 解説のトーン（口調）
- * - casual: カジュアル（親しみやすい口調）
- * - normal: 通常（標準的な口調）
- * - formal: フォーマル（丁寧な口調）
- */
-export type ExplainTone = 'casual' | 'normal' | 'formal'
-
-/**
  * テーマ
  * - light: ライトモード
  * - dark: ダークモード
@@ -74,8 +66,6 @@ export interface CodeVersion {
 export interface ToolbarProps {
   level: ExplainLevel
   onLevelChange: (level: ExplainLevel) => void
-  tone: ExplainTone
-  onToneChange: (tone: ExplainTone) => void
   language: Language
   onLanguageChange: (language: Language) => void
   onExplain: () => void

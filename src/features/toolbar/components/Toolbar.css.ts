@@ -111,7 +111,6 @@ const selectorBase = style({
 
 export const languageSelector = selectorBase
 export const levelSelector = selectorBase
-export const toneSelector = selectorBase
 
 export const selectorLabel = style({
   fontSize: vars.fontSize.xs,
