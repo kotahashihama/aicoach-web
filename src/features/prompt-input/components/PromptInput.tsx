@@ -1,4 +1,4 @@
-import { useState, useRef, KeyboardEvent } from 'react'
+import { useState, useRef, useEffect, KeyboardEvent } from 'react'
 import { Language } from '../../../shared/types'
 import { getLanguageDisplayName } from '../../../shared/lib/language'
 import { Button } from '../../../shared/components/Button'
@@ -32,6 +32,7 @@ export const PromptInput = ({
 }: PromptInputProps) => {
   const [prompt, setPrompt] = useState('')
   const [isComposing, setIsComposing] = useState(false)
+  const [previousPrompt, setPreviousPrompt] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   /**
@@ -52,6 +53,7 @@ export const PromptInput = ({
   const handleSubmit = () => {
     const trimmedPrompt = prompt.trim()
     if (trimmedPrompt && !loading) {
+      setPreviousPrompt(trimmedPrompt)
       onGenerateCode(trimmedPrompt)
       setPrompt('')
     }
@@ -68,6 +70,15 @@ export const PromptInput = ({
     }
   }
 
+  /**
+   * loading 状態が変更されたときの処理
+   */
+  useEffect(() => {
+    if (!loading && previousPrompt) {
+      setPreviousPrompt('')
+    }
+  }, [loading, previousPrompt])
+
   return (
     <div
       className={`${styles.promptInputContainer} ${loading ? styles.promptInputContainerLoading : ''}`}
@@ -76,10 +87,12 @@ export const PromptInput = ({
         <textarea
           ref={textareaRef}
           className={styles.promptTextarea}
-          value={prompt}
+          value={loading && previousPrompt ? previousPrompt : prompt}
           onChange={(e) => {
-            setPrompt(e.target.value)
-            adjustTextareaHeight()
+            if (!loading) {
+              setPrompt(e.target.value)
+              adjustTextareaHeight()
+            }
           }}
           onKeyDown={handleKeyDown}
           onCompositionStart={() => setIsComposing(true)}
